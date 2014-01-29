@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html ng-app="vwApp">
+<head>
+  <title>Voicewatch</title>
+  <%= stylesheet_link_tag    "application", media: "all" %>
+  <%= javascript_include_tag "application", controller_name %>
+  <%= csrf_meta_tags %>
+</head>
+<body>
+
+  <div class="navbar navbar-fixed-top">
+    <div class="navbar-inner">
+      <div class="container">
+        <a class="brand " href="#/">
+          <img src="/assets/people.png" alt="logo"> Genesys VoiceWatch
+        </a>
+        <ul class="nav nav-pills" data-ng-controller="NavbarController">
+          <li data-ng-class="{'active':getClass('/tests')}"><a href="#/tests">Tests</a></li>
+          <li data-ng-class="{'active':getClass('/results')}"><a href="#/results">Results</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div ng-view=""></div>
+
+</body>
+</html>

@@ -1,0 +1,2 @@
+class McpsController < ApplicationController
+end
