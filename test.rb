@@ -1,6 +1,8 @@
 require './config/boot'
 require './config/environment'
 
-test = Test.first
-test.run
+tests = Test.all
+tests.each do |test|
+	test.run
+end
 
