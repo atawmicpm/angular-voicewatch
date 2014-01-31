@@ -3,8 +3,24 @@ vwApp.controller('ResultsController', function($scope){
 });
 
 
+//
+// Test controller
+//
+vwApp.controller('TestController', function($scope, $routeParams, sharedTests){
+  
+  sharedTests.getTest($routeParams.id).then(function(test){
+    $scope.test = test;
+  });
 
+});
+
+
+//
+//  Tests controller
+//
 vwApp.controller('TestsController', function($scope, sharedTests){
+
+  $scope.testData = {}
 
 // get list of books
   sharedTests.getTests().then(function(tests){
@@ -28,6 +44,20 @@ vwApp.controller('TestsController', function($scope, sharedTests){
     $scope.testData.tenant = '';
     $scope.testData.mcp = '';
   }
+
+// copies test data into new test form
+  $scope.copyTest = function(test) {
+    $scope.testData.phone_number = test.phone_number;
+    $scope.testData.tenant = test.tenant.name;
+    $scope.testData.mcp = test.mcp.ip_address;
+  }
+
+// copies test attribute into search box or clears it depending
+// on what is passed
+  $scope.copySearch = function(search) {
+    $scope.search = search;
+  }
+
 
 });
 

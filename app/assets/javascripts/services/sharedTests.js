@@ -22,6 +22,13 @@ vwApp.factory('sharedTests', ['$http', '$rootScope', function($http, $rootScope)
         tests = addData;
         $rootScope.$broadcast('updateTests', tests);
       });
+    },
+
+    getTest: function(id) {
+      return $http.get('/tests/' + id + '.json').then(function(response){
+        test = response.data;
+        return test;
+      })
     }
 
   };

@@ -9,7 +9,6 @@ class TestsController < ApplicationController
   end
 
   def create
-    puts params
     mcp = Mcp.find_or_create_by(ip_address: params[:mcp])
     tenant = Tenant.find_or_create_by(name: params[:tenant])
 
@@ -20,9 +19,10 @@ class TestsController < ApplicationController
     )
 
     @tests = Test.all
-    #respond_with(@test)
-    # render json: @test
-
   end
   
+  def show
+    @test = Test.find(params[:id])
+  end
+
 end

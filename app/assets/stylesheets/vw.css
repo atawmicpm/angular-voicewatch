@@ -1,0 +1,11 @@
+.pointer {
+    cursor: pointer;
+}
+
+.form-margin {
+  margin-bottom: 10px;
+}
+
+.failure {
+  background-color: red;
+}

@@ -20,5 +20,11 @@ $routeProvider
     templateUrl: '/assets/tests.html'
   })
 
+  .when('/tests/:id',
+  {
+    controller: 'TestController',
+    templateUrl: '/assets/test.html'
+  })
+
   .otherwise({ redirectTo: '/' });
 });

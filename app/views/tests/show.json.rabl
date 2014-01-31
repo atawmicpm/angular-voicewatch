@@ -1,4 +1,4 @@
-collection @tests
+object @test
 
 attributes :id, :phone_number, :frequency, :print_frequency, :created_at
 

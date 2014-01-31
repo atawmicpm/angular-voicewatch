@@ -1,19 +1,22 @@
-<fieldset>
   <legend>Add a new test</legend>
+<div class="form-horizontal form-margin">
   <input type="text" name="phone_number" ng-model="testData.phone_number" placeholder="Phone Number" />
   <input type="text" name="tenant" ng-model="testData.tenant" placeholder="Tenant" />
   <input type="text" name="mcp" ng-model="testData.mcp" placeholder="MCP" />
   <button class="btn btn-success" ng-click="createTest(testData)">Create Test</button>
-</fieldset>
-
+</div>
 
 <legend>Search tests</legend>
-<input type="text" ng-model="search" placeholder="Search..." />
+<div class="form-horizontal form-margin">
+  <input type="text" ng-model="search" placeholder="Search..." />
+  <button class="btn btn-info" ng-click="copySearch()">clear</button>
+</div>
 
 <table class="table table-striped table-bordered">
 
   <thead>
     <tr>
+      <td>Status</td>
       <td>Phone Number</td>
       <td>Tenant</td>
       <td>MCP</td>
@@ -21,10 +24,18 @@
   </thead>
 
   <tbody>
-    <tr ng-repeat="test in tests |filter:search">
-      <td> {{ test.phone_number }} </td>
-      <td> {{ test.tenant.name }} </td>
-      <td> {{ test.mcp.ip_address }} </td>
+    <tr ng-repeat="test in tests |filter:search |orderBy:test.tenant">
+      <td>{{ test.results[0].result.status }}</td>
+      <td class="pointer" ng-click="copySearch(test.phone_number)"> {{ test.phone_number }} </td>
+      <td class="pointer" ng-click="copySearch(test.tenant.name)"> {{ test.tenant.name }} </td>
+      <td class="pointer" ng-click="copySearch(test.mcp.ip_address)"> {{ test.mcp.ip_address }} </td>
+
+      <td>
+        <button class="btn btn-success btn-condensed" ng-click="copyTest(test)">copy</button>
+      </td>
+      <td>
+        <a ng-href="#/tests/{{test.id}}" class="btn btn-success btn-condensed">details</a>
+      </td>
     </tr>
   </tbody>
 

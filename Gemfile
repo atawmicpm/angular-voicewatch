@@ -26,6 +26,8 @@ gem 'bootstrap-sass'
 gem 'rabl'
 gem 'oj'
 gem 'protected_attributes'
+gem 'sidekiq'
+gem 'clockwork'
 # Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
 # gem 'turbolinks'
 
