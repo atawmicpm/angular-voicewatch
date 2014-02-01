@@ -22,6 +22,22 @@ vwApp.controller('TestsController', function($scope, sharedTests){
 
   $scope.testData = {}
 
+  $scope.showResults = false;
+
+  $scope.showHide = function(id) {
+    console.log(id);
+    if ( /[0-9]/.test(id) ) {
+      console.log(id);
+      sharedTests.getTest(id).then(function(test){
+        $scope.testSelected = test;
+      });
+      $scope.showResults = true;
+    } else {
+      $scope.showResults = false;
+    }
+  };
+
+// $scope.showResults = false;
 // get list of books
   sharedTests.getTests().then(function(tests){
     $scope.tests = tests;
@@ -30,6 +46,15 @@ vwApp.controller('TestsController', function($scope, sharedTests){
 // update books
   $scope.$on('updateTests', function(events, tests) {
     $scope.tests = tests;
+  });
+
+// update results
+  sharedTests.getTest().then(function(test){
+    $scope.testSelected = test;
+  });
+
+  $scope.$on('updateResults', function(events, test) {
+    $scope.testSelected = test;
   });
 
 // handling the submit button for the form
@@ -54,10 +79,14 @@ vwApp.controller('TestsController', function($scope, sharedTests){
 
 // copies test attribute into search box or clears it depending
 // on what is passed
-  $scope.copySearch = function(search) {
-    $scope.search = search;
+  $scope.copySearchTests = function(search) {
+    $scope.searchTests = search;
+    $scope.showResults = false;
   }
 
+  $scope.copySearchResults = function(search) {
+    $scope.searchResults = search;
+  }
 
 });
 

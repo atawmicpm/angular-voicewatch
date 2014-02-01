@@ -28,8 +28,13 @@ class Test < ActiveRecord::Base
     )
 
     mcp.cmd(request)
+
+    mcp.waitfor({
+      "Match"         => /CALL_DROP/,
+      "Timeout"       => 60
+    })
     
-    result.get
+    p result.get
   end
 
 end

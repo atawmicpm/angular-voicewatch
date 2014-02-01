@@ -18,5 +18,5 @@ child :mcp do
 end
 
 child :results do
-  attributes :id, :status
+  attributes :id, :status, :log, :recording, :updated_at, :time_ago
 end
