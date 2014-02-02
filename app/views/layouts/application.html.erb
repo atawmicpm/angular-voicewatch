@@ -8,21 +8,24 @@
 </head>
 <body>
 
-  <div class="navbar navbar-fixed-top">
-    <div class="navbar-inner">
-      <div class="container">
-        <a class="brand " href="#/">
-          <img src="/assets/people.png" alt="logo"> Genesys VoiceAlert
-        </a>
-        <ul class="nav nav-pills" data-ng-controller="NavbarController">
-          <li data-ng-class="{'active':getClass('/tests')}"><a href="#/tests">Tests</a></li>
-          <li data-ng-class="{'active':getClass('/results')}"><a href="#/results">Results</a></li>
-        </ul>
+  <div class="container">
+
+    <nav class="navbar navbar-default navbar-fixed-top" role="navigation">   
+      <div class="navbar-header">
+        <div class="navbar-brand">
+          <img src="/assets/people.png" alt="logo" height="18px">
+          Genesys VoiceAlert
+        </div>
       </div>
-    </div>
+      <ul class="nav navbar-nav" ng-controller="NavbarController">           
+        <li ng-class="{'active':getClass('/')}"><a href="/">Tests</a></li>
+        <li ng-class="{'active':getClass('/config')}"><a href="#/config">Config</a></li>
+      </ul>  
+    </nav>
+
+
+    <div ng-view=""></div>
+
   </div>
-
-  <div ng-view=""></div>
-
 </body>
 </html>

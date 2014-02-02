@@ -18,7 +18,7 @@ class Result < ActiveRecord::Base
     url = "http://#{mcp_ip}:#{mcp_port}/"
 
     # Read result log from server
-    log = open(url + "#{self.id}.log").read
+    log = open(url + "#{self.id}.log").read.gsub!(/\d{2}-\d{2}-\d{2}.* : /, '')
     self.log = log
 
     # Determine the session ID from the log

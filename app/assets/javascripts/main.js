@@ -4,20 +4,20 @@
 //= require_tree ./directives
 
 
-var vwApp = angular.module('vwApp', ['ngRoute']);
+var vwApp = angular.module('vwApp', ['ngRoute', 'audioPlayer']);
 
 vwApp.config(function ($routeProvider) {
 $routeProvider
   .when('/',
   {
-    controller: 'ResultsController',
-    templateUrl: '/assets/results.html'
-  })
-
-  .when('/tests',
-  {
     controller: 'TestsController',
     templateUrl: '/assets/tests.html'
+  })
+
+  .when('/config',
+  {
+    controller: 'ConfigController',
+    templateUrl: '/assets/config.html'
   })
 
   .when('/tests/:id',

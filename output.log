@@ -408,4 +408,12 @@ PW RemoteDial>
 !CALL_DROP 86 32 0: APPL_END: Application ended call. (time spent was 32 secs). (protocol reason: N/A )
 !CALL_STATUS 85: CONNECTED: Line is connected.
 PW RemoteDial> 
-!CALL_DROP 85 8 0: APPL_END: Application ended call. (time spent was 8 secs). (protocol reason: N/A )
+!CALL_DROP 85 8 0: APPL_END: Application ended call. (time spent was 8 secs). (protocol reason: N/A )Trying 10.51.28.54...
+Connected to 10.51.28.54.
+
+PW RemoteDial> 
+!CALL_SENT 1: telno:sip:+15105173681@10.51.33.166:5054 ani:18554120839 url:http://10.51.28.54:1433/vwra.php?result_id=1 uuidata:N/A defaults_file:default parameter_list:
+PW RemoteDial> 
+!CALL_STATUS 1: CONNECTED: Line is connected.
+PW RemoteDial> 
+!CALL_DROP 1 2 0: APPL_END: Application ended call. (time spent was 2 secs). (protocol reason: N/A )

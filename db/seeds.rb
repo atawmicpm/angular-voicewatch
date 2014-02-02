@@ -18,6 +18,6 @@ tenants = Tenant.create([
   ])
 
 tests = Test.create([
-  {phone_number: '+15108087117', tenant_id: Tenant.first.id, mcp_id: Mcp.first.id, frequency: 5},
+  {phone_number: '+15105173681', tenant_id: Tenant.first.id, mcp_id: Mcp.first.id, frequency: 5},
   ])
 

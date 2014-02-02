@@ -1,77 +1,103 @@
-  <legend>Add a new test</legend>
-<div class="form-horizontal form-margin">
-  <input type="text" name="phone_number" ng-model="testData.phone_number" placeholder="Phone Number" />
-  <input type="text" name="tenant" ng-model="testData.tenant" placeholder="Tenant" />
-  <input type="text" name="mcp" ng-model="testData.mcp" placeholder="MCP" />
-  <button class="btn btn-success" ng-click="createTest(testData)">Create Test</button>
-</div>
+  <legend>Create test</legend>
 
-<legend>Search tests</legend>
-<div class="form-horizontal form-margin">
-  <input type="text" ng-model="searchTests" placeholder="Search tests..." />
-  <button class="btn btn-info" ng-click="copySearchTests()">clear</button>
-</div>
 
-<table class="table table-striped table-bordered">
+  <!-- <div class="row"> -->
+    <form class="form-inline">
 
-  <thead>
-    <tr>
-      <td>Status</td>
-      <td>Phone Number</td>
-      <td>Tenant</td>
-      <td>MCP</td>
-    </tr>
-  </thead>
+        <input class="form-control" type="text" name="phone_number" ng-model="testData.phone_number" placeholder="Phone Number" />
 
-  <tbody>
-    <tr ng-repeat="test in tests |filter:searchTests |orderBy:test.tenant">
-      <td>{{ test.results[0].result.status }}</td>
-      <td class="pointer" ng-click="copySearchTests(test.phone_number); showHide(test.id)"> {{ test.phone_number }} </td>
-      <td class="pointer" ng-click="copySearchTests(test.tenant.name)"> {{ test.tenant.name }} </td>
-      <td class="pointer" ng-click="copySearchTests(test.mcp.ip_address)"> {{ test.mcp.ip_address }} </td>
+        <input class="form-control" type="text" name="tenant" ng-model="testData.tenant" placeholder="Tenant" />
 
-      <td>
-        <button class="btn btn-success btn-condensed" ng-click="copyTest(test)">copy</button>
-      </td>
-      <td>
-        <a ng-click="showHide(test.id)" class="btn btn-success btn-condensed">show results</a>
-      </td>
-    </tr>
-  </tbody>
+        <input class="form-control" type="text" name="mcp" ng-model="testData.mcp" placeholder="MCP" />
 
-</table>
+        <button class="btn btn-success" ng-click="createTest(testData)">Create Test</button>
 
-<div ng-show="showResults">
-  <legend>Search results</legend>
-  <div class="form-horizontal form-margin">
-    <input type="text" ng-model="searchResults" placeholder="Search results..." />
-    <button class="btn btn-info" ng-click="copySearchResults()">clear</button>
-  </div>
+    </form>
+  <!-- </div> -->
 
-  <table class="table table-striped table-bordered">
+  <br><br>
+    <legend>Search tests</legend>
 
-    <thead>
-      <tr>
-        <td>Recording</td>
-        <td>Log</td>
-        <td>Timestamp</td>
-      </tr>
-    </thead>
+    <form class="form-inline">
+      <input class="form-control" type="text" ng-model="searchTests" placeholder="Search tests..." />
+      <button class="btn btn-info" ng-click="copySearchTests()">clear</button>
+    </form>
 
-    <tbody>
-      <tr ng-repeat="result in testSelected.results |filter:searchResults">
-        <td>
-          <a href="{{ result.result.recording }}">{{ result.result.recording }}</a>
-          <audio data-player-control="audio1" data-player-name="audio1" audio-player>
-  >
-            <source ng-src="http://localhost:3000/assets/{{ result.result.recording }}" type="audio/wav">
-          </audio>
-          {{ result.result.recording }}
-        </td>        
-        <td><p style="white-space: pre;">{{ result.result.log }} </p></td>
-        <td> {{ result.result.time_ago }} </td>
+    <br>
 
-      </tr>
-    </tbody>
-  </table>
-</div>
+    <div class="table-responsive">
+      <table class="table table-striped table-bordered">
+
+        <thead>
+          <tr>
+            <td>Status</td>
+            <td>Phone Number</td>
+            <td>Tenant</td>
+            <td>MCP</td>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr class="animate-repeat" ng-repeat="test in tests |filter:searchTests |orderBy:test.tenant">
+            <td>{{ test.results[0].result.status }}</td>
+            <td class="pointer" ng-click="copySearchTests(test.phone_number); showHide(test.id)"> {{ test.phone_number }} </td>
+            <td class="pointer" ng-click="copySearchTests(test.tenant.name)"> {{ test.tenant.name }} </td>
+            <td class="pointer" ng-click="copySearchTests(test.mcp.ip_address)"> {{ test.mcp.ip_address }} </td>
+
+            <td>
+              <button class="btn btn-success btn-condensed" ng-click="copyTest(test)">copy</button>
+            </td>
+            <td>
+              <a ng-click="showHide(test.id)" class="btn btn-success btn-condensed">show results</a>
+            </td>
+          </tr>
+        </tbody>
+
+      </table>
+
+    </div></div>
+
+    <div ng-show="showResults">
+
+      <div class="demo-row">
+        <div class="table-responsive">
+
+          <legend>Search results</legend>
+          <div class="form-inline">
+            <input class="form-control" type="text" ng-model="searchResults" placeholder="Search results..." />
+            <button class="btn btn-info" ng-click="copySearchResults()">clear</button>
+          </div>
+
+          <br> 
+
+          <table class="table table-striped table-bordered">
+
+            <thead>
+              <tr>
+                <td>Recording</td>
+                <td>Log</td>
+                <td>When?</td>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr class="animate-repeat" ng-repeat="result in testSelected.results |filter:searchResults">
+                <td>
+                  <a href="{{ result.result.recording }}">{{ result.result.recording }}</a>
+                  <audio data-player-control="audio1" data-player-name="audio1" audio-player>
+                    >
+                    <source ng-src="http://localhost:3000/assets/{{ result.result.recording }}" type="audio/wav">
+                    </audio>
+                    {{ result.result.recording }}
+                  </td>
+
+                  <td><p style="white-space: pre;"><small>{{ result.result.log }} </small></p></td>
+
+                  <td> {{ result.result.time_ago }} ago</td>
+
+                </tr>
+              </tbody>
+            </table>
+
+          </div></div>
+        </div>
