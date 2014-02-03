@@ -14,10 +14,11 @@ mcps = Mcp.create([
 
 tenants = Tenant.create([
   {name: 'Phillip Home'}, 
-  {name: 'Redhat'}
+  {name: 'Genesys'}
   ])
 
 tests = Test.create([
-  {phone_number: '+15105173681', tenant_id: Tenant.first.id, mcp_id: Mcp.first.id, frequency: 5},
+  {phone_number: '+15105073681', tenant_id: Tenant.first.id, mcp_id: Mcp.first.id, frequency: 5},
+  {phone_number: '+18558435355', tenant_id: Tenant.last.id, mcp_id: Mcp.first.id, frequency: 5},
   ])
 

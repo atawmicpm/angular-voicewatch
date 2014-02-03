@@ -13,7 +13,7 @@ class Test < ActiveRecord::Base
   
   def run
     # call sip:+18558435355@10.51.33.166:5054 18554120839 file:///usr/local/genesys/vwra/vwra.vxml 123
-    result    = self.results.create
+    result    = self.results.new
     phone     = self.phone_number
     mcp_ip    = self.mcp.ip_address
     mcp_port  = 3389

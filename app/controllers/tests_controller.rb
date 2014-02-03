@@ -5,7 +5,7 @@ class TestsController < ApplicationController
   respond_to :json
 
   def index
-    @tests = Test.all
+    @tests = Test.all.reverse
   end
 
   def create
@@ -23,6 +23,7 @@ class TestsController < ApplicationController
   
   def show
     @test = Test.find(params[:id])
+    @results = @test.results.reverse
   end
 
 end

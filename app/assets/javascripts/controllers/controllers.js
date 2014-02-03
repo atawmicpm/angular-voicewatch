@@ -20,8 +20,28 @@ vwApp.controller('TestController', function($scope, $routeParams, sharedTests){
 //
 vwApp.controller('TestsController', function($scope, sharedTests){
 
-  $scope.testData = {}
+  $scope.audio = document.createElement('audio');
 
+  $scope.playing = false;
+
+  $scope.play = function(sound) {
+    $scope.audio.src = sound;
+    $scope.playing = true;
+    $scope.audio.play();
+  };
+
+  $scope.stop = function() {
+    $scope.playing = false;
+    $scope.audio.pause();
+  };
+
+  $scope.audio.addEventListener('ended', function() {
+    $scope.$apply(function() {
+      $scope.stop();
+    });
+  });
+
+  $scope.testData = {}
   $scope.showResults = false;
 
   $scope.showHide = function(id) {
@@ -43,16 +63,12 @@ vwApp.controller('TestsController', function($scope, sharedTests){
     $scope.tests = tests;
   });
 
-// update books
+// update tests
   $scope.$on('updateTests', function(events, tests) {
     $scope.tests = tests;
   });
 
 // update results
-  sharedTests.getTest().then(function(test){
-    $scope.testSelected = test;
-  });
-
   $scope.$on('updateResults', function(events, test) {
     $scope.testSelected = test;
   });
@@ -90,9 +106,13 @@ vwApp.controller('TestsController', function($scope, sharedTests){
 
 });
 
+
+//
+//  Navbar controller
+//
 vwApp.controller('NavbarController', function ($scope, $location) {
     $scope.getClass = function (path) {
-      
+
         if ($location.path().substr(0, path.length) == path) {
             return true;
         } else {

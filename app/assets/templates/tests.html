@@ -74,26 +74,29 @@
 
             <thead>
               <tr>
-                <td>Recording</td>
+                <td>Play</td>
                 <td>Log</td>
                 <td>When?</td>
               </tr>
             </thead>
 
             <tbody>
-              <tr class="animate-repeat" ng-repeat="result in testSelected.results |filter:searchResults">
+              <tr class="animate-repeat" ng-repeat="result in testSelected.results | reverse">
                 <td>
-                  <a href="{{ result.result.recording }}">{{ result.result.recording }}</a>
-                  <audio data-player-control="audio1" data-player-name="audio1" audio-player>
-                    >
-                    <source ng-src="http://localhost:3000/assets/{{ result.result.recording }}" type="audio/wav">
-                    </audio>
-                    {{ result.result.recording }}
-                  </td>
+                  <div class="play-cell">
+                  <button class="btn btn-success btn-lg" ng-click="play(result.result.recording)" ng-show="!playing">
+                    <span class="glyphicon glyphicon-play">
+                  </button>
 
-                  <td><p style="white-space: pre;"><small>{{ result.result.log }} </small></p></td>
+                  <button class="btn btn-success btn-lg" ng-click="stop()" ng-show="playing">
+                    <span class="glyphicon glyphicon-pause">
+                  </button>
+                </div>
+                </td>
 
-                  <td> {{ result.result.time_ago }} ago</td>
+                <td><p style="white-space: pre;"><small>{{ result.result.log }} </small></p></td>
+
+                <td> {{ result.result.time_ago }} ago</td>
 
                 </tr>
               </tbody>
@@ -101,3 +104,4 @@
 
           </div></div>
         </div>
+
