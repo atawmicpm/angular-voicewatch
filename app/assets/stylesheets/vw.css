@@ -33,3 +33,11 @@ body {
 .badge-success {
   background-color: #5cb85c;
 }
+
+#show-results {
+  width: 150px;
+}
+
+#tenant-column {
+  width: 170px;
+}

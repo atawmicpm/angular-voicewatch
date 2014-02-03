@@ -70,7 +70,7 @@
     </thead>
 
     <tbody>
-      <tr ng-repeat="test in tests |orderBy:'test.status':true |filter:searchTests ">
+      <tr ng-repeat="test in tests |orderBy:'test.status':true |filter:searchTests">
         
         <td>
           <center>
@@ -84,7 +84,7 @@
           {{ test.phone_number }} 
         </td>
         
-        <td class="pointer" ng-click="copySearchTests(test.tenant.name)"> 
+        <td id="tenant-column" class="pointer" ng-click="copySearchTests(test.tenant.name)"> 
           {{ test.tenant.name }}
         </td>
 
@@ -99,9 +99,16 @@
         </td>
         
         <td>
-          <a ng-click="copySearchTests(test.phone_number); showHide(test.id)" class="btn btn-success btn-condensed">
-            show results
-          </a>
+
+            <button id="show-results" class="btn btn-success" ng-click="copySearchTests(test.phone_number); showHide(test.id)" ng-show="!showResults">
+              show results
+              <span class="glyphicon glyphicon-chevron-right">
+            </button>
+
+            <button id="show-results" class="btn btn-success" ng-click="copySearchTests()" ng-show="showResults">
+              hide results
+              <span class="glyphicon glyphicon-chevron-down">
+            </button>
         </td>
       
       </tr>

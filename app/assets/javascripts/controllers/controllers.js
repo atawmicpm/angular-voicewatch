@@ -63,8 +63,10 @@ vwApp.controller('TestsController', function($scope, sharedTests){
         $scope.testSelected = test;
       });
       $scope.resultsFaded = false;
+      $scope.showResults = true;
     } else {
       $scope.resultsFaded = true;
+      $scope.showResults = false;
     }
   };
 
@@ -116,6 +118,7 @@ vwApp.controller('TestsController', function($scope, sharedTests){
   $scope.copySearchTests = function(search) {
     $scope.searchTests = search;
     $scope.resultsFaded = true;
+    $scope.showResults = false;
   };
 
   $scope.copySearchResults = function(search) {
