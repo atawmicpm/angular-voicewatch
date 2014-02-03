@@ -1,107 +1,163 @@
-  <legend>Create test</legend>
 
 
-  <!-- <div class="row"> -->
+<button id="create-test-button" class="btn btn-default" ng-click="isCollapsed = !isCollapsed">
+    Create Test
+    <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': !isCollapsed, 'glyphicon-chevron-right': isCollapsed}"></i>
+</button>
+
+<button id="create-test-button" class="btn btn-default" ng-click="configCollapsed = !configCollapsed">
+    Configure VoiceAlert
+    <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': !configCollapsed, 'glyphicon-chevron-right': configCollapsed}"></i>
+</button>
+
+<hr>
+
+<div collapse="configCollapsed">
+  <div class="well well-lg">
     <form class="form-inline">
 
-        <input class="form-control" type="text" name="phone_number" ng-model="testData.phone_number" placeholder="Phone Number" />
+      <input class="form-control" type="text" name="phone_number" ng-model="configData.smtp" placeholder="SMTP Server" />
 
-        <input class="form-control" type="text" name="tenant" ng-model="testData.tenant" placeholder="Tenant" />
+      <input class="form-control" type="text" name="tenant" ng-model="configData.email" placeholder="Email addresses" />
 
-        <input class="form-control" type="text" name="mcp" ng-model="testData.mcp" placeholder="MCP" />
 
-        <button class="btn btn-success" ng-click="createTest(testData)">Create Test</button>
+      <button class="btn btn-success" ng-click="saveSettings(configData)">
+        Save Settings
+      </button>        
 
     </form>
-  <!-- </div> -->
+  </div> 
+</div>
 
-  <br><br>
-    <legend>Search tests</legend>
-
+<div collapse="isCollapsed">
+  <div class="well well-lg">
     <form class="form-inline">
-      <input class="form-control" type="text" ng-model="searchTests" placeholder="Search tests..." />
-      <button class="btn btn-info" ng-click="copySearchTests()">clear</button>
+
+      <input class="form-control" type="text" name="phone_number" ng-model="testData.phone_number" placeholder="Phone Number" />
+
+      <input class="form-control" type="text" name="tenant" ng-model="testData.tenant" placeholder="Tenant" />
+
+      <input class="form-control" type="text" name="mcp" ng-model="testData.mcp" placeholder="MCP" />
+
+      <button class="btn btn-success" ng-click="createTest(testData)">
+        Create Test
+      </button>        
+
     </form>
+  </div> 
+</div>
 
-    <br>
 
-    <div class="table-responsive">
-      <table class="table table-striped table-bordered">
+<form class="form-inline">
+  <input class="form-control" type="text" ng-model="searchTests" placeholder="Search tests..." />
+  <button class="btn btn-info" ng-click="copySearchTests()">
+    clear
+  </button>
+</form>
 
-        <thead>
-          <tr>
-            <td>Status</td>
-            <td>Phone Number</td>
-            <td>Tenant</td>
-            <td>MCP</td>
-          </tr>
-        </thead>
+<br>
 
-        <tbody>
-          <tr class="animate-repeat" ng-repeat="test in tests |filter:searchTests |orderBy:test.tenant">
-            <td>{{ test.results[0].result.status }}</td>
-            <td class="pointer" ng-click="copySearchTests(test.phone_number); showHide(test.id)"> {{ test.phone_number }} </td>
-            <td class="pointer" ng-click="copySearchTests(test.tenant.name)"> {{ test.tenant.name }} </td>
-            <td class="pointer" ng-click="copySearchTests(test.mcp.ip_address)"> {{ test.mcp.ip_address }} </td>
+<div class="table-responsive">
+  <table class="table table-striped table-bordered">
 
-            <td>
-              <button class="btn btn-success btn-condensed" ng-click="copyTest(test)">copy</button>
-            </td>
-            <td>
-              <a ng-click="showHide(test.id)" class="btn btn-success btn-condensed">show results</a>
-            </td>
-          </tr>
-        </tbody>
+    <thead>
+      <tr>
+        <td><center>Status</center></td>
+        <td>Phone Number</td>
+        <td>Tenant</td>
+        <td>MCP</td>
+      </tr>
+    </thead>
 
-      </table>
+    <tbody>
+      <tr ng-repeat="test in tests |orderBy:'test.status':true |filter:searchTests ">
+        
+        <td>
+          <center>
+          <span class="badge" ng-class="{'badge-danger': test.status > 0, 'badge-success': test.status == 0}">
+            {{ test.status }}
+          </span>
+        </center>
+        </td>
+        
+        <td class="pointer" ng-click="copySearchTests(test.phone_number); showHide(test.id)">
+          {{ test.phone_number }} 
+        </td>
+        
+        <td class="pointer" ng-click="copySearchTests(test.tenant.name)"> 
+          {{ test.tenant.name }}
+        </td>
 
-    </div></div>
+        <td class="pointer" ng-click="copySearchTests(test.mcp.ip_address); resultsFaded = !resultsFaded">
+          {{ test.mcp.ip_address }}
+        </td>
 
-    <div ng-show="showResults">
+        <td>
+          <button class="btn btn-success btn-condensed" ng-click="copyTest(test)">
+            copy
+          </button>
+        </td>
+        
+        <td>
+          <a ng-click="copySearchTests(test.phone_number); showHide(test.id)" class="btn btn-success btn-condensed">
+            show results
+          </a>
+        </td>
+      
+      </tr>
+    </tbody>
+  </table>
+</div>
 
-      <div class="demo-row">
-        <div class="table-responsive">
 
-          <legend>Search results</legend>
-          <div class="form-inline">
-            <input class="form-control" type="text" ng-model="searchResults" placeholder="Search results..." />
-            <button class="btn btn-info" ng-click="copySearchResults()">clear</button>
+<div transition="fade" do-it="resultsFaded">
+
+  <legend>Search results</legend>
+  <div class="form-inline">
+    <input class="form-control" type="text" ng-model="searchResults" placeholder="Search results..." />
+    <button class="btn btn-info" ng-click="copySearchResults()">
+      clear
+    </button>
+  </div>
+
+  <br> 
+
+  <table class="table table-striped table-bordered">
+
+    <thead>
+      <tr>
+        <td>Play</td>
+        <td>Log</td>
+        <td>When?</td>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr class="animate-repeat" ng-repeat="result in testSelected.results |filter:searchResults| reverse">
+        <td>
+          <div class="play-cell">
+            <center>
+            <button class="btn btn-lg" ng-click="play(result.result.recording)" ng-class="{'btn-danger': result.result.status > 0, 'btn-success': result.result.status == 0}" ng-show="!playing">
+              <span class="glyphicon glyphicon-play">
+            </button>
+
+            <button class="btn btn-lg" ng-click="stop()" ng-class="{'btn-danger': result.result.status > 0, 'btn-success': result.result.status == 0}" ng-show="playing">
+              <span class="glyphicon glyphicon-pause">
+            </button>
+          </center>
           </div>
+        </td>
 
-          <br> 
+        <td>
+          <p style="white-space: pre;"><small>{{ result.result.log }}</small></p>
+        </td>
 
-          <table class="table table-striped table-bordered">
+        <td> 
+          {{ result.result.time_ago }} ago
+        </td>
 
-            <thead>
-              <tr>
-                <td>Play</td>
-                <td>Log</td>
-                <td>When?</td>
-              </tr>
-            </thead>
+      </tr>
+    </tbody>
+  </table>
 
-            <tbody>
-              <tr class="animate-repeat" ng-repeat="result in testSelected.results | reverse">
-                <td>
-                  <div class="play-cell">
-                  <button class="btn btn-success btn-lg" ng-click="play(result.result.recording)" ng-show="!playing">
-                    <span class="glyphicon glyphicon-play">
-                  </button>
-
-                  <button class="btn btn-success btn-lg" ng-click="stop()" ng-show="playing">
-                    <span class="glyphicon glyphicon-pause">
-                  </button>
-                </div>
-                </td>
-
-                <td><p style="white-space: pre;"><small>{{ result.result.log }} </small></p></td>
-
-                <td> {{ result.result.time_ago }} ago</td>
-
-                </tr>
-              </tbody>
-            </table>
-
-          </div></div>
-        </div>
-
+</div>

@@ -7,6 +7,11 @@ vwApp.factory('sharedTests', ['$http', '$rootScope', function($http, $rootScope)
     getTests: function() {
       return $http.get('/tests.json').then(function(response){
         tests = response.data;
+
+        // angular.forEach(tests, function (test) {
+        //   test.status = parseFloat(test.status);
+        // });
+        
         $rootScope.$broadcast('updateTests', tests);
         return tests;
       })

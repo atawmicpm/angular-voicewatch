@@ -1,5 +1,9 @@
 vwApp.filter('reverse', function() {
   return function(items) {
-    return items.slice().reverse();
+    if(typeof items === 'undefined'){
+      return items;
+    } else {
+    return items.slice().reverse();      
+    }
   };
 });

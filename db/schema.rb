@@ -40,7 +40,7 @@ ActiveRecord::Schema.define(version: 20140107095317) do
   create_table "tests", force: true do |t|
     t.integer  "tenant_id"
     t.integer  "mcp_id"
-    t.integer  "frequency"
+    t.integer  "status",       default: 0
     t.string   "phone_number"
     t.datetime "created_at"
     t.datetime "updated_at"

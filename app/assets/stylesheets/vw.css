@@ -20,5 +20,16 @@ body {
 
 .play-cell {
   vertical-align:middle;
-  
+}
+
+#create-test-button {
+  width: 200px;
+}
+
+.badge-danger {
+  background-color: #d9534f;
+}
+
+.badge-success {
+  background-color: #5cb85c;
 }

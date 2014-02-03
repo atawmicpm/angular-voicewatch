@@ -25,6 +25,16 @@ class Result < ActiveRecord::Base
     /Session ID: (.*) \n/.match(log)
     session_id = $1
 
+    if log =~ /Error/
+      self.status = 1
+      self.test.status += 1
+      self.test.save
+    else
+      self.status = 0
+      self.test.status = 0
+      self.test.save
+    end
+
     # Parse directory listing for wav file name
     # callrec.006F012E-08004BA1.140201003134.wav
     listing = open(url).read
@@ -44,5 +54,6 @@ class Result < ActiveRecord::Base
     # save result information to database
     self.save
   end
+
 
 end

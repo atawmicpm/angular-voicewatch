@@ -20,6 +20,18 @@ vwApp.controller('TestController', function($scope, $routeParams, sharedTests){
 //
 vwApp.controller('TestsController', function($scope, sharedTests){
 
+  $scope.isCollapsed = true;
+  $scope.configCollapsed = true;
+  $scope.resultsFaded = true;
+
+  $scope.showCreate = function() {
+    $scope.showCreateTest = true;
+  };
+
+  $scope.hideCreate = function() {
+    $scope.showCreateTest = false;
+  };
+
   $scope.audio = document.createElement('audio');
 
   $scope.playing = false;
@@ -47,18 +59,21 @@ vwApp.controller('TestsController', function($scope, sharedTests){
   $scope.showHide = function(id) {
     console.log(id);
     if ( /[0-9]/.test(id) ) {
-      console.log(id);
       sharedTests.getTest(id).then(function(test){
         $scope.testSelected = test;
       });
-      $scope.showResults = true;
+      $scope.resultsFaded = false;
     } else {
-      $scope.showResults = false;
+      $scope.resultsFaded = true;
     }
   };
 
-// $scope.showResults = false;
-// get list of books
+  setInterval(function(){
+    sharedTests.getTests().then(function(tests){
+      $scope.tests = tests;
+    });
+  }, 30000);
+
   sharedTests.getTests().then(function(tests){
     $scope.tests = tests;
   });
@@ -78,45 +93,33 @@ vwApp.controller('TestsController', function($scope, sharedTests){
     $params = $.param({
       "phone_number": testData.phone_number,
       "tenant":       testData.tenant,
-      "mcp":          testData.mcp
-    })
+      "mcp":          testData.mcp,
+      "status":       0 
+    });
+
     sharedTests.saveTests($params);
     $scope.testData.phone_number = '';
     $scope.testData.tenant = '';
     $scope.testData.mcp = '';
-  }
+  };
 
 // copies test data into new test form
   $scope.copyTest = function(test) {
     $scope.testData.phone_number = test.phone_number;
     $scope.testData.tenant = test.tenant.name;
     $scope.testData.mcp = test.mcp.ip_address;
-  }
+    $scope.isCollapsed = false;
+  };
 
 // copies test attribute into search box or clears it depending
 // on what is passed
   $scope.copySearchTests = function(search) {
     $scope.searchTests = search;
-    $scope.showResults = false;
-  }
+    $scope.resultsFaded = true;
+  };
 
   $scope.copySearchResults = function(search) {
     $scope.searchResults = search;
-  }
+  };
 
-});
-
-
-//
-//  Navbar controller
-//
-vwApp.controller('NavbarController', function ($scope, $location) {
-    $scope.getClass = function (path) {
-
-        if ($location.path().substr(0, path.length) == path) {
-            return true;
-        } else {
-            return false;
-        }
-    }
 });

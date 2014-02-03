@@ -1,6 +1,6 @@
 object @test
 
-attributes :id, :phone_number, :frequency, :print_frequency, :created_at
+attributes :id, :phone_number, :frequency, :status, :created_at
 
 node do |test|
   {
