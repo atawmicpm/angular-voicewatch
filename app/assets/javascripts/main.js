@@ -5,7 +5,7 @@
 //= require_tree ./filters
 
 
-var vwApp = angular.module('vwApp', ['ngRoute', 'ngAnimate', 'ui.bootstrap', 'ui.bootstrap.transitions']);
+var vwApp = angular.module('vwApp', ['ngRoute', 'ngAnimate', 'ui.bootstrap', 'ui.bootstrap.transitions', 'ui.validate', 'ez.confirm']);
 
 vwApp.config(function ($routeProvider) {
 $routeProvider

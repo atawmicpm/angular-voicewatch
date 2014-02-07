@@ -18,25 +18,26 @@ vwApp.controller('TestController', function($scope, $routeParams, $compile, shar
 //
 //  Tests controller
 //
-vwApp.controller('TestsController', function($scope, $compile, sharedTests){
+vwApp.controller('TestsController', function($scope, $compile, sharedTests, ezConfirm){
 
+  $scope.invalidTest = false;
+
+  $scope.validPhoneNumber = function(number) {
+    number.test;
+  };
+
+  $scope.delete = function(id) {
+    ezConfirm.create(function(){
+      sharedTests.deleteTest(id).then(function(tests){
+        $scope.tests = tests;
+      });
+    });
+  };
 
   $scope.$on('ngRepeatFinished', function() {
-    angular.forEach($scope.testSelected.results, function(test, key){
+    angular.forEach($scope.testSelected.results, function(test, index){
       var wavesurfer = $compile('<wave-surfer recording="' + test.result.recording + '" result-id="' + test.result.id + '"></wave-surfer>')($scope);
-  //     
       angular.element('#wavesurfer' + test.result.id).append(wavesurfer);
-  //     var wavesurfer = Object.create(WaveSurfer);
-
-  //     wavesurfer.init({
-  //       container: document.querySelector('#wavesurfer' + test.result.id),
-  //       waveColor: 'violet',
-  //       progressColor: 'purple',
-  //       height: 50
-  //     });
-  //     wavesurfer.load(test.result.recording);
-  //     wavesurfer.on('')
-  //     
     });
   });
 
@@ -91,18 +92,20 @@ vwApp.controller('TestsController', function($scope, $compile, sharedTests){
   });
 
 // handling the submit button for the form
-  $scope.createTest = function(testData) {
-    $params = $.param({
-      "phone_number": testData.phone_number,
-      "tenant":       testData.tenant,
-      "mcp":          testData.mcp,
-      "status":       0 
-    });
+  $scope.createTest = function() {
+    if($scope.testForm.$valid) {
+      $params = $.param({
+        "phone_number": $scope.testData.phone_number,
+        "tenant":       $scope.testData.tenant,
+        "mcp":          $scope.testData.mcp,
+        "status":       0 
+      });
 
-    sharedTests.saveTests($params);
-    $scope.testData.phone_number = '';
-    $scope.testData.tenant = '';
-    $scope.testData.mcp = '';
+      sharedTests.saveTests($params);
+      $scope.testData.phone_number = '';
+      $scope.testData.tenant = '';
+      $scope.testData.mcp = '';
+      }
   };
 
 // copies test data into new test form

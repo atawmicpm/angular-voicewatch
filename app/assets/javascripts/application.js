@@ -12,6 +12,8 @@
 //= require angular-route
 //= require angular-animate.min
 //= require angular-ui-bootstrap
+//= require angular-ui-validate
+//= require angular-ez-confirm
 //= require transition
 //= require transitions
 //= require wavesurfer.min

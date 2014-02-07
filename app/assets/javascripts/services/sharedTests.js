@@ -7,11 +7,6 @@ vwApp.factory('sharedTests', ['$http', '$rootScope', function($http, $rootScope)
     getTests: function() {
       return $http.get('/tests.json').then(function(response){
         tests = response.data;
-
-        // angular.forEach(tests, function (test) {
-        //   test.status = parseFloat(test.status);
-        // });
-        
         $rootScope.$broadcast('updateTests', tests);
         return tests;
       })
@@ -34,7 +29,15 @@ vwApp.factory('sharedTests', ['$http', '$rootScope', function($http, $rootScope)
         test = response.data;
         $rootScope.$broadcast('updateResults', test);
         return test;
-      })
+      });
+    },
+
+    deleteTest: function(id) {
+      return $http.delete('/tests/' + id + '.json').then(function(response){
+        tests = response.data;
+        $rootScope.$broadcast('updateTests', tests);
+        return tests;
+      });
     }
 
   };

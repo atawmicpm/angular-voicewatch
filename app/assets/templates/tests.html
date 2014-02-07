@@ -6,8 +6,9 @@
 </button>
 
 <button id="create-test-button" class="btn btn-default" ng-click="configCollapsed = !configCollapsed">
-    Configure VoiceAlert
-    <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': !configCollapsed, 'glyphicon-chevron-right': configCollapsed}"></i>
+    Configure 
+    <span class="pull-right fui-gear"></span>
+<!--     <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': !configCollapsed, 'glyphicon-chevron-right': configCollapsed}"></i> -->
 </button>
 
 <hr>
@@ -16,7 +17,7 @@
   <div class="well well-lg">
     <form class="form-inline">
 
-      <input class="form-control" type="text" name="phone_number" ng-model="configData.smtp" placeholder="SMTP Server" />
+      <input class="form-control" type="text" name="smtp" ng-model="configData.smtp" placeholder="SMTP Server" />
 
       <input class="form-control" type="text" name="tenant" ng-model="configData.email" placeholder="Email addresses" />
 
@@ -31,15 +32,15 @@
 
 <div collapse="isCollapsed">
   <div class="well well-lg">
-    <form class="form-inline">
+    <form name="testForm" class="form-inline" ng-submit="createTest()" novalidate>
 
-      <input class="form-control" type="text" name="phone_number" ng-model="testData.phone_number" placeholder="Phone Number" />
+      <input class="form-control" type="text" name="phone_number" ng-model="testData.phone_number" placeholder="Phone Number" required/>
 
-      <input class="form-control" type="text" name="tenant" ng-model="testData.tenant" placeholder="Tenant" />
+      <input class="form-control" type="text" name="tenant" ng-model="testData.tenant" placeholder="Tenant" required/>
 
-      <input class="form-control" type="text" name="mcp" ng-model="testData.mcp" placeholder="MCP" />
+      <input class="form-control" type="text" name="mcp" ng-model="testData.mcp" placeholder="MCP" required/>
 
-      <button class="btn btn-success" ng-click="createTest(testData)">
+      <button class="btn btn-success" type="submit" ng-disabled="testForm.$invalid">
         Create Test
       </button>        
 
@@ -47,7 +48,7 @@
   </div> 
 </div>
 
-
+<div class="well">
 <form class="form-inline">
   <input class="form-control" type="text" ng-model="searchTests" placeholder="Search tests..." />
   <button class="btn btn-info" ng-click="copySearchTests()">
@@ -58,14 +59,14 @@
 <br>
 
 <div class="table-responsive">
-  <table class="table table-striped table-bordered">
+  <table class="table table-striped">
 
     <thead>
       <tr>
-        <td><center>Status</center></td>
-        <td>Phone Number</td>
-        <td>Tenant</td>
-        <td>MCP</td>
+        <td><center><b>Errors</b></center></td>
+        <td><b>Phone Number</b></td>
+        <td><b>Tenant</b></td>
+        <td><b>MCP</b></td>
       </tr>
     </thead>
 
@@ -93,12 +94,6 @@
         </td>
 
         <td>
-          <button class="btn btn-success btn-condensed" ng-click="copyTest(test)">
-            copy
-          </button>
-        </td>
-        
-        <td>
 
             <button id="show-results" class="btn btn-success" ng-click="copySearchTests(test.phone_number); showHide(test.id)" ng-show="!showResults">
               show results
@@ -110,16 +105,25 @@
               <span class="glyphicon glyphicon-chevron-down">
             </button>
         </td>
-      
+
+
+        <td>
+          <button class="btn btn-success btn-condensed" ng-click="copyTest(test)">
+            copy
+          </button>
+  
+            <button class="btn btn-danger" ng-click="delete(test.id)">delete</button>
+        </td>
       </tr>
     </tbody>
   </table>
+</div>
 </div>
 
 
 <div transition="fade" do-it="resultsFaded">
 
-  <legend>Search results</legend>
+<div class="well">
   <div class="form-inline">
     <input class="form-control" type="text" ng-model="searchResults" placeholder="Search results..." />
     <button class="btn btn-info" ng-click="copySearchResults()">
@@ -134,13 +138,13 @@
 
     <thead>
       <tr>
-        <td>Log</td>
-        <td>When?</td>
+        <td><b>Log</b></td>
+        <td><b>When?</b></td>
       </tr>
     </thead>
 
     <tbody>
-      <tr ng-repeat="result in testSelected.results |filter:searchResults| reverse | validlog" on-finish-render>
+      <tr ng-repeat="result in testSelected.results |filter:searchResults| reverse | validlog |limitTo:10" on-finish-render>
 
 
         <td>
@@ -156,5 +160,7 @@
       </tr>
     </tbody>
   </table>
+
+</div>
 
 </div>

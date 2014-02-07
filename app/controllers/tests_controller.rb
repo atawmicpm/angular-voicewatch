@@ -26,4 +26,10 @@ class TestsController < ApplicationController
     @results = @test.results.reverse
   end
 
+  def destroy
+    test = Test.find(params[:id])
+    test.destroy!
+    @tests = Test.all
+  end
+
 end

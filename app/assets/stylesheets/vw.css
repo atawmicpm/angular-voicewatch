@@ -44,6 +44,7 @@ body {
 
 #playbutton {
   margin-top: 5px;
+  float: left;
 }
 
 #header {
