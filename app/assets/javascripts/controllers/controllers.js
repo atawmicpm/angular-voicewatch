@@ -6,7 +6,7 @@ vwApp.controller('ConfigController', function($scope){
 //
 // Test controller
 //
-vwApp.controller('TestController', function($scope, $routeParams, sharedTests){
+vwApp.controller('TestController', function($scope, $routeParams, $compile, sharedTests){
   
   sharedTests.getTest($routeParams.id).then(function(test){
     $scope.test = test;
@@ -18,7 +18,27 @@ vwApp.controller('TestController', function($scope, $routeParams, sharedTests){
 //
 //  Tests controller
 //
-vwApp.controller('TestsController', function($scope, sharedTests){
+vwApp.controller('TestsController', function($scope, $compile, sharedTests){
+
+
+  $scope.$on('ngRepeatFinished', function() {
+    angular.forEach($scope.testSelected.results, function(test, key){
+      var wavesurfer = $compile('<wave-surfer recording="' + test.result.recording + '" result-id="' + test.result.id + '"></wave-surfer>')($scope);
+  //     
+      angular.element('#wavesurfer' + test.result.id).append(wavesurfer);
+  //     var wavesurfer = Object.create(WaveSurfer);
+
+  //     wavesurfer.init({
+  //       container: document.querySelector('#wavesurfer' + test.result.id),
+  //       waveColor: 'violet',
+  //       progressColor: 'purple',
+  //       height: 50
+  //     });
+  //     wavesurfer.load(test.result.recording);
+  //     wavesurfer.on('')
+  //     
+    });
+  });
 
   $scope.isCollapsed = true;
   $scope.configCollapsed = true;
@@ -32,26 +52,6 @@ vwApp.controller('TestsController', function($scope, sharedTests){
     $scope.showCreateTest = false;
   };
 
-  $scope.audio = document.createElement('audio');
-
-  $scope.playing = false;
-
-  $scope.play = function(sound) {
-    $scope.audio.src = sound;
-    $scope.playing = true;
-    $scope.audio.play();
-  };
-
-  $scope.stop = function() {
-    $scope.playing = false;
-    $scope.audio.pause();
-  };
-
-  $scope.audio.addEventListener('ended', function() {
-    $scope.$apply(function() {
-      $scope.stop();
-    });
-  });
 
   $scope.testData = {}
   $scope.showResults = false;

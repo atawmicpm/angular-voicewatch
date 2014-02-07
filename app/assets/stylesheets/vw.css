@@ -11,7 +11,7 @@
 }
 
 body {
-  padding-top: 70px;
+  padding-top: 20px;
 }
 
 .form-inline input {
@@ -40,4 +40,12 @@ body {
 
 #tenant-column {
   width: 170px;
+}
+
+#playbutton {
+  margin-top: 5px;
+}
+
+#header {
+  font-size: 20px;
 }

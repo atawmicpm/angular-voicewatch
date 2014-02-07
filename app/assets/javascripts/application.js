@@ -14,3 +14,4 @@
 //= require angular-ui-bootstrap
 //= require transition
 //= require transitions
+//= require wavesurfer.min

@@ -31,6 +31,7 @@ GEM
     builder (3.1.4)
     celluloid (0.15.2)
       timers (~> 1.1.0)
+    chunky_png (1.2.9)
     clockwork (0.7.0)
       activesupport
       tzinfo (~> 0.3.35)
@@ -44,18 +45,23 @@ GEM
     connection_pool (1.2.0)
     erubis (2.7.0)
     execjs (2.0.2)
+    ffi (1.9.3)
     hike (1.2.3)
     i18n (0.6.9)
     jbuilder (1.5.3)
       activesupport (>= 3.0.0)
       multi_json (>= 1.2.0)
     json (1.8.1)
+    lame (0.0.3)
+      ffi
     mail (2.5.4)
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
     mime-types (1.25.1)
     minitest (4.7.5)
     multi_json (1.8.2)
+    oily_png (1.1.0)
+      chunky_png (~> 1.2.7)
     oj (2.5.3)
     pg (0.17.1)
     polyglot (0.3.3)
@@ -85,6 +91,7 @@ GEM
     redis (3.0.7)
     redis-namespace (1.4.1)
       redis (~> 3.0.4)
+    ruby-audio (1.6.1)
     sass (3.2.13)
     sass-rails (4.0.1)
       railties (>= 4.0.0, < 5.0)
@@ -120,6 +127,9 @@ GEM
     uglifier (2.4.0)
       execjs (>= 0.3.0)
       json (>= 1.8.0)
+    waveform (0.1.2)
+      chunky_png
+      ruby-audio
 
 PLATFORMS
   ruby
@@ -129,6 +139,8 @@ DEPENDENCIES
   clockwork
   coffee-rails (~> 4.0.0)
   jbuilder (~> 1.2)
+  lame
+  oily_png
   oj
   pg
   protected_attributes
@@ -138,3 +150,4 @@ DEPENDENCIES
   sdoc
   sidekiq
   uglifier (>= 1.3.0)
+  waveform

@@ -41,15 +41,21 @@ class Result < ActiveRecord::Base
     /(callrec.#{session_id}.*.wav)"/.match(listing)
     wav = $1
 
+    sounds = "/Users/pmispagel/Desktop/dev/voicewatch/app/assets/sounds"
     # Save the wav file locally
-    File.open("/Users/pmispagel/Desktop/dev/voicewatch/app/assets/sounds/#{self.id}.wav", "wb") do |saved_wav|
+    File.open("#{sounds}/#{self.id}.wav", "wb") do |saved_wav|
       open("#{url}#{wav}", "rb") do |wav_file|
         saved_wav.write(wav_file.read)
       end
     end
 
+    system("sox #{sounds}/#{self.id}.wav -e signed-integer #{sounds}/#{self.id}s.wav")
+    system("lame -V0 #{sounds}/#{self.id}s.wav #{sounds}/#{self.id}.mp3")
+    system("rm -rf #{sounds}/#{self.id}.wav")
+    system("rm -rf #{sounds}/#{self.id}s.wav")
+
     # update the wav file URL in database
-    self.recording = "/assets/#{self.id}.wav"
+    self.recording = "/assets/#{self.id}.mp3"
 
     # save result information to database
     self.save

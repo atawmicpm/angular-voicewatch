@@ -1,0 +1,12 @@
+Todo:
+
+-auto sort tests by most number of errors
+-add user authentication (active directory)
+-make page routes to specific tests work
+-convert wav to mp3 for better streaming and browser support
+
+
+
+Packages:
+sox
+lame

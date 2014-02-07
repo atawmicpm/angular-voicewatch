@@ -128,35 +128,25 @@
   </div>
 
   <br> 
+  <div id="wavesurfer"></div>
 
-  <table class="table table-striped table-bordered">
+  <table class="table table-striped">
 
     <thead>
       <tr>
-        <td>Play</td>
         <td>Log</td>
         <td>When?</td>
       </tr>
     </thead>
 
     <tbody>
-      <tr class="animate-repeat" ng-repeat="result in testSelected.results |filter:searchResults| reverse">
-        <td>
-          <div class="play-cell">
-            <center>
-            <button class="btn btn-lg" ng-click="play(result.result.recording)" ng-class="{'btn-danger': result.result.status > 0, 'btn-success': result.result.status == 0}" ng-show="!playing">
-              <span class="glyphicon glyphicon-play">
-            </button>
+      <tr ng-repeat="result in testSelected.results |filter:searchResults| reverse | validlog" on-finish-render>
 
-            <button class="btn btn-lg" ng-click="stop()" ng-class="{'btn-danger': result.result.status > 0, 'btn-success': result.result.status == 0}" ng-show="playing">
-              <span class="glyphicon glyphicon-pause">
-            </button>
-          </center>
-          </div>
-        </td>
 
         <td>
           <p style="white-space: pre;"><small>{{ result.result.log }}</small></p>
+          <div id="wavesurfer{{ result.result.id }}" class="wave-background"></div>
+
         </td>
 
         <td> 

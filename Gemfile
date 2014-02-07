@@ -28,6 +28,10 @@ gem 'oj'
 gem 'protected_attributes'
 gem 'sidekiq'
 gem 'clockwork'
+gem 'lame'
+gem 'waveform'
+gem 'oily_png'
+
 # Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
 # gem 'turbolinks'
 
