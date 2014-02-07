@@ -2703,4 +2703,68 @@ PW RemoteDial>
 !CALL_STATUS 144: CONNECTED: Line is connected.
 PW RemoteDial> 
 !CALL_DROP 144 8 0: APPL_END: Application ended call. (time spent was 8 secs). (protocol reason: N/A )
-!CALL_DROP 143 32 0: APPL_END: Application ended call. (time spent was 32 secs). (protocol reason: N/A )
+!CALL_DROP 143 32 0: APPL_END: Application ended call. (time spent was 32 secs). (protocol reason: N/A )Trying 10.51.28.54...
+Trying 10.51.28.54...
+Connected to 10.51.28.54.
+Connected to 10.51.28.54.
+
+PW RemoteDial> 
+PW RemoteDial> 
+!CALL_SENT 146: telno:sip:+18558435355@10.51.33.166:5054 ani:18554120839 url:http://10.51.28.54:1433/vwra.php?result_id=146 uuidata:N/A defaults_file:default parameter_list:
+PW RemoteDial> 
+!CALL_SENT 145: telno:sip:+15105073681@10.51.33.166:5054 ani:18554120839 url:http://10.51.28.54:1433/vwra.php?result_id=145 uuidata:N/A defaults_file:default parameter_list:
+PW RemoteDial> 
+!CALL_STATUS 146: CONNECTED: Line is connected.
+PW RemoteDial> 
+!CALL_STATUS 145: CONNECTED: Line is connected.
+PW RemoteDial> 
+!CALL_DROP 145 8 0: APPL_END: Application ended call. (time spent was 8 secs). (protocol reason: N/A )
+!CALL_DROP 146 32 0: APPL_END: Application ended call. (time spent was 32 secs). (protocol reason: N/A )Trying 10.51.28.54...
+Trying 10.51.28.54...
+Connected to 10.51.28.54.
+Connected to 10.51.28.54.
+
+PW RemoteDial> 
+PW RemoteDial> 
+!CALL_SENT 148: telno:sip:+18558435355@10.51.33.166:5054 ani:18554120839 url:http://10.51.28.54:1433/vwra.php?result_id=148 uuidata:N/A defaults_file:default parameter_list:
+PW RemoteDial> 
+!CALL_SENT 147: telno:sip:+15105073681@10.51.33.166:5054 ani:18554120839 url:http://10.51.28.54:1433/vwra.php?result_id=147 uuidata:N/A defaults_file:default parameter_list:
+PW RemoteDial> 
+!CALL_STATUS 148: CONNECTED: Line is connected.
+PW RemoteDial> 
+!CALL_STATUS 147: CONNECTED: Line is connected.
+PW RemoteDial> 
+!CALL_DROP 147 8 0: APPL_END: Application ended call. (time spent was 8 secs). (protocol reason: N/A )
+!CALL_DROP 148 32 0: APPL_END: Application ended call. (time spent was 32 secs). (protocol reason: N/A )Trying 10.51.28.54...
+Trying 10.51.28.54...
+Connected to 10.51.28.54.
+Connected to 10.51.28.54.
+
+PW RemoteDial> 
+PW RemoteDial> 
+!CALL_SENT 150: telno:sip:+18558435355@10.51.33.166:5054 ani:18554120839 url:http://10.51.28.54:1433/vwra.php?result_id=150 uuidata:N/A defaults_file:default parameter_list:
+PW RemoteDial> 
+!CALL_SENT 149: telno:sip:+15105073681@10.51.33.166:5054 ani:18554120839 url:http://10.51.28.54:1433/vwra.php?result_id=149 uuidata:N/A defaults_file:default parameter_list:
+PW RemoteDial> 
+!CALL_STATUS 150: CONNECTED: Line is connected.
+PW RemoteDial> 
+!CALL_STATUS 149: CONNECTED: Line is connected.
+PW RemoteDial> 
+!CALL_DROP 149 9 0: APPL_END: Application ended call. (time spent was 9 secs). (protocol reason: N/A )
+!CALL_DROP 150 32 0: APPL_END: Application ended call. (time spent was 32 secs). (protocol reason: N/A )Trying 10.51.28.54...
+Trying 10.51.28.54...
+Connected to 10.51.28.54.
+Connected to 10.51.28.54.
+
+PW RemoteDial> 
+PW RemoteDial> 
+!CALL_SENT 152: telno:sip:+18558435355@10.51.33.166:5054 ani:18554120839 url:http://10.51.28.54:1433/vwra.php?result_id=152 uuidata:N/A defaults_file:default parameter_list:
+PW RemoteDial> 
+!CALL_SENT 151: telno:sip:+15105073681@10.51.33.166:5054 ani:18554120839 url:http://10.51.28.54:1433/vwra.php?result_id=151 uuidata:N/A defaults_file:default parameter_list:
+PW RemoteDial> 
+!CALL_STATUS 152: CONNECTED: Line is connected.
+PW RemoteDial> 
+!CALL_STATUS 151: CONNECTED: Line is connected.
+PW RemoteDial> 
+!CALL_DROP 151 8 0: APPL_END: Application ended call. (time spent was 8 secs). (protocol reason: N/A )
+!CALL_DROP 152 32 0: APPL_END: Application ended call. (time spent was 32 secs). (protocol reason: N/A )

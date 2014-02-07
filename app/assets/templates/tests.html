@@ -34,13 +34,44 @@
   <div class="well well-lg">
     <form name="testForm" class="form-inline" ng-submit="createTest()" novalidate>
 
-      <input class="form-control" type="text" name="phone_number" ng-model="testData.phone_number" placeholder="Phone Number" required/>
+      <input 
+        ng-model="testData.phone_number" 
+        ng-pattern="/^\+\d+$/"
+        ng-minlength="12"
+        ng-maxlenght="15"
+        class="form-control" 
+        type="text" 
+        name="phone_number" 
+        placeholder="Phone Number" 
+        required
+      />
 
-      <input class="form-control" type="text" name="tenant" ng-model="testData.tenant" placeholder="Tenant" required/>
+      <input 
+        ng-model="testData.tenant" 
+        ng-minlength="2"
+        class="form-control" 
+        type="text" 
+        name="tenant" 
+        placeholder="Tenant" 
+        required
+      />
 
-      <input class="form-control" type="text" name="mcp" ng-model="testData.mcp" placeholder="MCP" required/>
+      <input 
+        ng-model="testData.mcp" 
+        ng-pattern="/^.*\..*$/"
+        ng-minlenght="6"
+        class="form-control" 
+        type="text" 
+        name="mcp"
+        placeholder="MCP" 
+        required
+      />
 
-      <button class="btn btn-success" type="submit" ng-disabled="testForm.$invalid">
+      <button 
+        class="btn btn-success" 
+        type="submit" 
+        ng-disabled="testForm.$invalid"
+      >
         Create Test
       </button>        
 
