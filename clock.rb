@@ -8,9 +8,9 @@ module Clockwork
     puts "Running #{job}"
   end
 
-  tests = Test.all
 
   every(5.minutes, 'tests.submit') {
+    tests = Test.all
     tests.each do |test|
       puts "Test ID: #{test.id}"
       TestRunner.perform_async(test.id)

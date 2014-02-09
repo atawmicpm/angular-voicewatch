@@ -50,3 +50,7 @@ body {
 #header {
   font-size: 20px;
 }
+
+.pagination-margin {
+  margin-top: 0px;
+}

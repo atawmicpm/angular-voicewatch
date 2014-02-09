@@ -18,13 +18,11 @@ vwApp.controller('TestController', function($scope, $routeParams, $compile, shar
 //
 //  Tests controller
 //
-vwApp.controller('TestsController', function($scope, $compile, sharedTests, ezConfirm){
+vwApp.controller('TestsController', function($scope, $compile, $filter, sharedTests, ezConfirm){
 
-  $scope.invalidTest = false;
 
-  $scope.validPhoneNumber = function(number) {
-    number.test;
-  };
+  $scope.currentPage = 1;
+  $scope.pageSize = 10;
 
   $scope.delete = function(id) {
     ezConfirm.create(function(){
@@ -35,9 +33,16 @@ vwApp.controller('TestsController', function($scope, $compile, sharedTests, ezCo
   };
 
   $scope.$on('ngRepeatFinished', function() {
-    angular.forEach($scope.testSelected.results, function(test, index){
-      var wavesurfer = $compile('<wave-surfer recording="' + test.result.recording + '" result-id="' + test.result.id + '"></wave-surfer>')($scope);
-      angular.element('#wavesurfer' + test.result.id).append(wavesurfer);
+
+    var start = ($scope.currentPage -1) * 10;
+    var end = start + 10;
+
+    $scope.wavesurferResults = [];    
+    $scope.wavesurferResults = $scope.filteredResults.slice(start,end);
+    
+    angular.forEach($scope.wavesurferResults, function(result){
+      var wavesurfer = $compile('<wave-surfer recording="' + result.recording + '" result-id="' + result.id + '"></wave-surfer>')($scope);
+      angular.element('#wavesurfer' + result.id).append(wavesurfer);
     });
   });
 
@@ -58,13 +63,13 @@ vwApp.controller('TestsController', function($scope, $compile, sharedTests, ezCo
   $scope.showResults = false;
 
   $scope.showHide = function(id) {
-    console.log(id);
     if ( /[0-9]/.test(id) ) {
       sharedTests.getTest(id).then(function(test){
         $scope.testSelected = test;
       });
       $scope.resultsFaded = false;
       $scope.showResults = true;
+      $scope.currentPage = 1;
     } else {
       $scope.resultsFaded = true;
       $scope.showResults = false;
@@ -88,7 +93,17 @@ vwApp.controller('TestsController', function($scope, $compile, sharedTests, ezCo
 
 // update results
   $scope.$on('updateResults', function(events, test) {
+
     $scope.testSelected = test;
+    $scope.filteredResults = [];
+
+    angular.forEach(test.results, function(test){
+      if(/mp3/.test(test.result.recording)) {
+          $scope.filteredResults.push(test.result);
+      }
+    });
+    $scope.filteredResults = $filter('orderBy')($scope.filteredResults, 'updated_at', true);
+    $scope.totalItems = $scope.filteredResults.length;
   });
 
 // handling the submit button for the form

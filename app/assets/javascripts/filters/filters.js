@@ -1,12 +1,3 @@
-vwApp.filter('reverse', function() {
-  return function(items) {
-    if(typeof items === 'undefined'){
-      return items;
-    } else {
-      return items.slice().reverse();      
-    }
-  };
-});
 
 vwApp.filter('validlog', function() {
   return function(logs) {
@@ -17,4 +8,13 @@ vwApp.filter('validlog', function() {
     });
     return logs;
   }
+});
+
+vwApp.filter('startFrom', function () {
+    return function (input, start) {
+        if(input !== undefined){
+          start = +start;
+          return input.slice(start);
+        } 
+    };
 });

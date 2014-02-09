@@ -97,7 +97,7 @@
         <exit/>
       <else/>
         <log gvp:dest="<?php echo $log; ?>"> Prompt Duration is: <value expr="(Main_Menu$.duration - 1000)"/>; Context: Main Menu </log>
-        <audio src="audiofile/dtmf_1.vox"/>
+        <audio src="file:///genesys/vwra/audiofile/dtmf_1.vox"/>
       </if>
     </filled>
   </record>
@@ -110,7 +110,7 @@
         <exit/>
       <else/>
         <log gvp:dest="<?php echo $log; ?>"> Prompt Duration is: <value expr="(DTMF_First$.duration - 1000)"/>; Context: DTMF First Menu </log>
-        <audio src="audiofile/dtmf_1.vox"/>
+        <audio src="file:///genesys/vwra/audiofile/dtmf_1.vox"/>
       </if>
     </filled>
   </record>
@@ -122,10 +122,10 @@
         <log gvp:dest="<?php echo $log; ?>"> Expected Range: <value expr="DTMF_Second_Lower"/> to <value expr="DTMF_Second_Upper"/>; Actual: <value expr="(DTMF_Second$.duration - 1000)"/> </log>
         <exit/>
         <else/>
-        <audio src="audiofile/dtmf_1.vox"/>
-        <audio src="audiofile/dtmf_2.vox"/>
-        <audio src="audiofile/dtmf_6.vox"/>
-        <audio src="audiofile/dtmf_pound.vox"/>
+        <audio src="file:///genesys/vwra/audiofile/dtmf_1.vox"/>
+        <audio src="file:///genesys/vwra/audiofile/dtmf_2.vox"/>
+        <audio src="file:///genesys/vwra/audiofile/dtmf_6.vox"/>
+        <audio src="file:///genesys/vwra/audiofile/dtmf_pound.vox"/>
       </if>
     </filled>
   </record>
@@ -139,7 +139,7 @@
         <assign name="dtmf_reply" expr="dtmfInput"/>
         <if cond="dtmf_reply.length==3 &amp;&amp; dtmf_reply.charAt(0)=='1' &amp;&amp; dtmf_reply.charAt(1)=='2' &amp;&amp; dtmf_reply.charAt(2)=='6'">
           <log gvp:dest="<?php echo $log; ?>"> DTMF Recognition Test Passed </log>
-          <audio src="audiofile/silence1000ms.vox"/>
+          <audio src="file:///genesys/vwra/audiofile/silence1000ms.vox"/>
           <clear/>
           <goto next="#speech"/>
         <else/>
@@ -177,7 +177,7 @@
         <exit/>
       <else/>
         <log gvp:dest="<?php echo $log; ?>"> Prompt Duration is: <value expr="(Main_Menu$.duration - 1000)"/>; Context: Main Menu </log>
-        <audio src="audiofile/dtmf_2.vox"/>
+        <audio src="file:///genesys/vwra/audiofile/dtmf_2.vox"/>
       </if>
     </filled>
   </record>
@@ -190,7 +190,7 @@
         <exit/>
       <else/>
         <log gvp:dest="<?php echo $log; ?>"> Prompt Duration is: <value expr="(Speech_First$.duration - 1000)"/>; Context: Speech First Menu </log>
-        <audio src="audiofile/dtmf_1.vox"/>
+        <audio src="file:///genesys/vwra/audiofile/dtmf_1.vox"/>
       </if>
     </filled>
   </record>
@@ -254,7 +254,7 @@
         <exit/>
       <else/>
         <log gvp:dest="<?php echo $log; ?>"> Prompt Duration is: <value expr="(Main_Menu$.duration - 1000)"/>; Context: Main Menu </log>
-        <audio src="audiofile/dtmf_2.vox"/>
+        <audio src="file:///genesys/vwra/audiofile/dtmf_2.vox"/>
       </if>
     </filled>
   </record>
@@ -267,7 +267,7 @@
           <exit/>
       <else/>
         <log gvp:dest="<?php echo $log; ?>"> Prompt Duration is: <value expr="(TTS_First$.duration - 1000)"/>; Context: TTS First Menu </log>
-        <audio src="audiofile/dtmf_2.vox"/>
+        <audio src="file:///genesys/vwra/audiofile/dtmf_2.vox"/>
       </if>
     </filled>
   </record>
@@ -293,7 +293,7 @@
 
   <block>
     <log gvp:dest="<?php echo $log; ?>"> Begin to Disconnect </log>
-    <audio src="audiofile/dtmf_3.vox"/>
+    <audio src="file:///genesys/vwra/audiofile/dtmf_3.vox"/>
   </block>
   
     <record name="Disconnect" Finalsilence="0.1s">
