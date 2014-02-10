@@ -57,6 +57,8 @@
         name="tenant" 
         placeholder="Tenant" 
         required
+        typeahead="tenant for tenant in tenants |filter:$viewValue |limitTo:8"
+        typeahead-editable="false"
       />
 
       <input 
@@ -118,7 +120,7 @@
         </center>
         </td>
         
-        <td class="pointer" ng-click="copySearchTests(test.phone_number); showHide(test.id)">
+        <td class="pointer" ng-click="copySearchTests(test.phone_number, test.id)">
           {{ test.phone_number }} 
         </td>
         
@@ -186,7 +188,7 @@
 
     <thead>
       <tr>
-        <td><b>Log</b></td>
+        <td ng-click="gotoBottom()"><b>Log</b></td>
         <td><b>When?</b></td>
       </tr>
     </thead>
@@ -206,6 +208,5 @@
       </tr>
     </tbody>
   </table>
-
 </div>
 </div>

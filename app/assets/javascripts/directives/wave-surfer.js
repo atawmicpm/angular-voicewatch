@@ -12,7 +12,6 @@ vwApp.directive('waveSurfer', function ($compile) {
       wavesurfer.init({
         container: document.querySelector('#wavesurfer' + resultId),
         waveColor: '#666',
-        // progressColor: '#e74c3c',
         progressColor: '#428bca',
         height: 100,
       });
@@ -38,6 +37,6 @@ vwApp.directive('onFinishRender', function ($timeout) {
                 });
             }
         }
-    }
+    };
 });
 

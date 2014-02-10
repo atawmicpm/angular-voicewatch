@@ -7,7 +7,7 @@ vwApp.filter('validlog', function() {
       }
     });
     return logs;
-  }
+  };
 });
 
 vwApp.filter('startFrom', function () {

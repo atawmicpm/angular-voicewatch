@@ -9,7 +9,7 @@ vwApp.factory('sharedTests', ['$http', '$rootScope', function($http, $rootScope)
         tests = response.data;
         $rootScope.$broadcast('updateTests', tests);
         return tests;
-      })
+      });
     },   
 
     saveTests: function($params) {

@@ -18,11 +18,14 @@ vwApp.controller('TestController', function($scope, $routeParams, $compile, shar
 //
 //  Tests controller
 //
-vwApp.controller('TestsController', function($scope, $compile, $filter, sharedTests, ezConfirm){
+vwApp.controller('TestsController', function($scope, $compile, $filter, $location, $routeParams, $route, $anchorScroll, sharedTests, ezConfirm){
+
 
 
   $scope.currentPage = 1;
   $scope.pageSize = 10;
+  $scope.tenants = [];
+  $scope.mcps = [];
 
   $scope.delete = function(id) {
     ezConfirm.create(function(){
@@ -59,23 +62,37 @@ vwApp.controller('TestsController', function($scope, $compile, $filter, sharedTe
   };
 
 
-  $scope.testData = {}
+  var lastRoute = $route.current;
+  $scope.$on('$locationChangeSuccess', function(event) {
+      $route.current = lastRoute;
+  });
+
+  $scope.testData = {};
   $scope.showResults = false;
 
   $scope.showHide = function(id) {
     if ( /[0-9]/.test(id) ) {
+      $location.path('/tests/' + id);
       sharedTests.getTest(id).then(function(test){
         $scope.testSelected = test;
+        $scope.searchTests = $scope.testSelected.phone_number;
       });
       $scope.resultsFaded = false;
       $scope.showResults = true;
       $scope.currentPage = 1;
     } else {
+      $location.path('/');
       $scope.resultsFaded = true;
       $scope.showResults = false;
     }
   };
 
+  // if /#/tests/:id then show that test
+  if($routeParams.id){
+    $scope.showHide($routeParams.id);
+  }
+
+  // update the UI every 30 seconds
   setInterval(function(){
     sharedTests.getTests().then(function(tests){
       $scope.tests = tests;
@@ -84,6 +101,14 @@ vwApp.controller('TestsController', function($scope, $compile, $filter, sharedTe
 
   sharedTests.getTests().then(function(tests){
     $scope.tests = tests;
+    angular.forEach(tests, function(test){
+      if($scope.tenants.indexOf(test.tenant.name) === -1){
+        $scope.tenants.push(test.tenant.name);
+      }
+      if ($scope.mcps.indexOf(test.mcp.ip_address) === -1){
+        $scope.mcps.push(test.mcp.ip_address);
+      }
+    });
   });
 
 // update tests
@@ -133,14 +158,18 @@ vwApp.controller('TestsController', function($scope, $compile, $filter, sharedTe
 
 // copies test attribute into search box or clears it depending
 // on what is passed
-  $scope.copySearchTests = function(search) {
+  $scope.copySearchTests = function(search, id) {
     $scope.searchTests = search;
-    $scope.resultsFaded = true;
-    $scope.showResults = false;
+    $scope.showHide(id);
   };
 
   $scope.copySearchResults = function(search) {
     $scope.searchResults = search;
+  };
+
+  $scope.gotoTop = function() {
+    $location.hash('top');
+    $anchorScroll();
   };
 
 });

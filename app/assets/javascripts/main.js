@@ -23,8 +23,8 @@ $routeProvider
 
   .when('/tests/:id',
   {
-    controller: 'TestController',
-    templateUrl: '/assets/test.html'
+    controller: 'TestsController',
+    templateUrl: '/assets/tests.html'
   })
 
   .otherwise({ redirectTo: '/' });

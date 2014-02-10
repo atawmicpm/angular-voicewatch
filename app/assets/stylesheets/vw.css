@@ -51,6 +51,9 @@ body {
   font-size: 20px;
 }
 
+#bottom {
+  margin-top: -5px;
+}
 .pagination-margin {
   margin-top: 0px;
 }

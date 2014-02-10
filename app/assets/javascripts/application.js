@@ -4,16 +4,16 @@
 // compiled file.
 //
 
-//= require jquery
+//= require vendor/jquery
 // require jquery_ujs
 // require bootstrap
 //= require angular
 //= require angular-resource
 //= require angular-route
-//= require angular-animate.min
-//= require angular-ui-bootstrap
-//= require angular-ui-validate
-//= require angular-ez-confirm
-//= require transition
-//= require transitions
-//= require wavesurfer.min
+//= require vendor/angular-animate.min
+//= require vendor/angular-ui-bootstrap
+//= require vendor/angular-ui-validate
+//= require vendor/angular-ez-confirm
+//= require vendor/transition
+//= require vendor/transitions
+//= require vendor/wavesurfer.min

@@ -1,0 +1,23 @@
+{
+  "name": "VoiceAlert",
+  "version": "0.0.0",
+  "description": "AngularJS application to monitor phone numbers and call quality.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/atawmicpm/angular-voicewatch.git"
+  },
+  "author": "Phillip Mispagel",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/atawmicpm/angular-voicewatch/issues"
+  },
+  "homepage": "https://github.com/atawmicpm/angular-voicewatch",
+  "devDependencies": {
+    "grunt": "~0.4.2",
+    "grunt-contrib-jshint": "~0.8.0"
+  }
+}
