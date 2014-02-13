@@ -31,7 +31,7 @@ gem 'clockwork'
 gem 'lame'
 gem 'waveform'
 gem 'oily_png'
-
+gem 'newrelic_rpm'
 # Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
 # gem 'turbolinks'
 
@@ -47,7 +47,7 @@ end
 # gem 'bcrypt-ruby', '~> 3.1.2'
 
 # Use unicorn as the app server
-# gem 'unicorn'
+gem 'unicorn'
 
 # Use Capistrano for deployment
 # gem 'capistrano', group: :development
