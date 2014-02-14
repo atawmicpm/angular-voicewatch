@@ -56,5 +56,5 @@ production:
   encoding: unicode
   database: voicewatch_production
   pool: 5
-  # username: voicewatch
-  # password:
+  username: postgres
+  password: voicealert
