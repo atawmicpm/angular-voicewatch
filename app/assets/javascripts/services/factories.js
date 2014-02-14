@@ -1,6 +1,6 @@
 vwApp.factory('sharedTests', ['$http', '$rootScope', function($http, $rootScope){
 
-  var books = [];
+  $http.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded";
 
   return {
 
@@ -14,8 +14,8 @@ vwApp.factory('sharedTests', ['$http', '$rootScope', function($http, $rootScope)
 
     saveTests: function($params) {
       return $http({
-        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-        url: '/tests.json', 
+        headers: {'Content-Type': 'application/json' },
+        url: '/tests.json',
         method: 'POST',
         data: $params
       }).success(function(addData){

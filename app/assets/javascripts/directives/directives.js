@@ -1,3 +1,4 @@
+/*  create <wave-surfer> HTML tag that calls wavesurfer.js, displays the waveform, and adds the play/pause button */
 vwApp.directive('waveSurfer', function ($compile) {
   return {
     restrict: 'E',
@@ -26,7 +27,9 @@ vwApp.directive('waveSurfer', function ($compile) {
   };
 });
 
-
+/*  add on-finish-render attribute to any ng-repeat to have it emit/broadcast ngRepeatFinished
+    so other scripts can perform updates once the information is rendered 
+*/
 vwApp.directive('onFinishRender', function ($timeout) {
     return {
         restrict: 'A',

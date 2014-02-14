@@ -1,32 +1,44 @@
-vwApp.controller('ConfigController', function($scope){
-  $scope.results = ['rehe', 'raha', 'roho'];
-});
-
-
-//
-// Test controller
-//
-vwApp.controller('TestController', function($scope, $routeParams, $compile, sharedTests){
-  
-  sharedTests.getTest($routeParams.id).then(function(test){
-    $scope.test = test;
-  });
-
-});
-
 
 //
 //  Tests controller
 //
-vwApp.controller('TestsController', function($scope, $compile, $filter, $location, $routeParams, $route, $anchorScroll, sharedTests, ezConfirm){
+vwApp.controller('TestsController', ['$scope', '$timeout', '$compile', '$filter', '$location', '$routeParams', '$route', 'sharedTests', 'ezConfirm', 
+  function($scope, $timeout, $compile, $filter, $location, $routeParams, $route, sharedTests, ezConfirm){
 
+  $scope.currentPage = 1;   // set initial page for pagination
+  $scope.pageSize = 10;     // set number of test results per page
+  $scope.tenants = [];      // initialize tenants array for new tenant creation auto complete
+  $scope.mcps = [];         // initialize mcps array for new tenant creation auto complete
+  
+  $scope.showResults = false;     // make the test button say 'show results >' to start
+  $scope.isCollapsed = true;      // set the create new test view to collapsed to start
+  $scope.configCollapsed = true;  // set the config view collapsed to start
+  $scope.resultsFaded = true;     // make sure the test results view is hidden 
+  $scope.testData = {};           // create initial object for create test form
 
+  /*  grab initial tests from REST API to display in the view */
+  sharedTests.getTests().then(function(tests){
+    $scope.tests = tests;
+    angular.forEach(tests, function(test){
+      // push new tenants to the tenants array for auto complete
+      if($scope.tenants.indexOf(test.tenant.name) === -1){
+        $scope.tenants.push(test.tenant.name);
+      }
+      // push new mcps to the mcps array for auto complete
+      if ($scope.mcps.indexOf(test.mcp.ip_address) === -1){
+        $scope.mcps.push(test.mcp.ip_address);
+      }
+    });
+  });
 
-  $scope.currentPage = 1;
-  $scope.pageSize = 10;
-  $scope.tenants = [];
-  $scope.mcps = [];
+  /*  grab new tests from REST API and update the UI every 30 seconds */
+  setInterval(function(){
+    sharedTests.getTests().then(function(tests){
+      $scope.tests = tests;
+    });
+  }, 30000);
 
+  /*  popup delete confirmation box, if yes then run deleteTest function from the sharedTests factory */
   $scope.delete = function(id) {
     ezConfirm.create(function(){
       sharedTests.deleteTest(id).then(function(tests){
@@ -35,6 +47,66 @@ vwApp.controller('TestsController', function($scope, $compile, $filter, $locatio
     });
   };
 
+  /*  submit create test form data to sharedTests factory and clear the form fields */
+  $scope.createTest = function() {
+    if($scope.testForm.$valid) {
+      $params = {
+        "phone_number": $scope.testData.phone_number,
+        "tenant":       $scope.testData.tenant,
+        "mcp":          $scope.testData.mcp,
+        "status":       0 
+      };
+
+      sharedTests.saveTests($params);
+      $scope.testData.phone_number = '';
+      $scope.testData.tenant = '';
+      $scope.testData.mcp = '';
+    }
+  };
+
+  /*  update tests array any time the sharedTests factory broadcasts updateTests */
+  $scope.$on('updateTests', function(events, tests) {
+    $scope.tests = tests;
+  });
+
+  /*  show tests results if an id is passed in, hide results if not */
+  $scope.showHide = function(id) {
+    if ( /[0-9]/.test(id) ) {
+      $location.path('/tests/' + id);
+      sharedTests.getTest(id).then(function(test){
+        $scope.searchTests = test.phone_number;
+      });
+      $scope.showResults = true;
+    } else {
+      $location.path('/');
+      $scope.resultsFaded = true;
+      $scope.showResults = false;
+    }
+  };
+
+  /*  update results array any time the sharedTests factory broadcasts updateResults */
+  $scope.$on('updateResults', function(events, test) {
+
+    $scope.filteredResults = [];
+    console.log(test);
+
+    angular.forEach(test.results, function(test){
+      if(/mp3/.test(test.result.recording)) {
+          $scope.filteredResults.push(test.result);
+      }
+    });
+    $scope.filteredResults = $filter('orderBy')($scope.filteredResults, 'updated_at', true);
+    $scope.totalItems = $scope.filteredResults.length;
+    $scope.currentPage = 1;
+    $scope.resultsFaded = false;
+  });
+
+  /*  if the url is http://hostname/#/tests/:id then show those test results */
+  if($routeParams.id){
+    $scope.showHide($routeParams.id);
+  }
+
+  /*  when the onFinishRender directive broadcasts ngRepeatFinished, populate and render the waveforms */
   $scope.$on('ngRepeatFinished', function() {
 
     var start = ($scope.currentPage -1) * 10;
@@ -49,127 +121,39 @@ vwApp.controller('TestsController', function($scope, $compile, $filter, $locatio
     });
   });
 
-  $scope.isCollapsed = true;
-  $scope.configCollapsed = true;
-  $scope.resultsFaded = true;
-
-  $scope.showCreate = function() {
-    $scope.showCreateTest = true;
-  };
-
-  $scope.hideCreate = function() {
-    $scope.showCreateTest = false;
-  };
-
-
+  /*  short circuit $location change so we can update the browser URL without refreshing the view template   */
   var lastRoute = $route.current;
   $scope.$on('$locationChangeSuccess', function(event) {
       $route.current = lastRoute;
   });
 
-  $scope.testData = {};
-  $scope.showResults = false;
-
-  $scope.showHide = function(id) {
-    if ( /[0-9]/.test(id) ) {
-      $location.path('/tests/' + id);
-      sharedTests.getTest(id).then(function(test){
-        $scope.testSelected = test;
-        $scope.searchTests = $scope.testSelected.phone_number;
-      });
-      $scope.resultsFaded = false;
-      $scope.showResults = true;
-      $scope.currentPage = 1;
-    } else {
-      $location.path('/');
-      $scope.resultsFaded = true;
-      $scope.showResults = false;
-    }
-  };
-
-  // if /#/tests/:id then show that test
-  if($routeParams.id){
-    $scope.showHide($routeParams.id);
-  }
-
-  // update the UI every 30 seconds
-  setInterval(function(){
-    sharedTests.getTests().then(function(tests){
-      $scope.tests = tests;
-    });
-  }, 30000);
-
-  sharedTests.getTests().then(function(tests){
-    $scope.tests = tests;
-    angular.forEach(tests, function(test){
-      if($scope.tenants.indexOf(test.tenant.name) === -1){
-        $scope.tenants.push(test.tenant.name);
-      }
-      if ($scope.mcps.indexOf(test.mcp.ip_address) === -1){
-        $scope.mcps.push(test.mcp.ip_address);
-      }
-    });
-  });
-
-// update tests
-  $scope.$on('updateTests', function(events, tests) {
-    $scope.tests = tests;
-  });
-
-// update results
-  $scope.$on('updateResults', function(events, test) {
-
-    $scope.testSelected = test;
-    $scope.filteredResults = [];
-
-    angular.forEach(test.results, function(test){
-      if(/mp3/.test(test.result.recording)) {
-          $scope.filteredResults.push(test.result);
-      }
-    });
-    $scope.filteredResults = $filter('orderBy')($scope.filteredResults, 'updated_at', true);
-    $scope.totalItems = $scope.filteredResults.length;
-  });
-
-// handling the submit button for the form
-  $scope.createTest = function() {
-    if($scope.testForm.$valid) {
-      $params = $.param({
-        "phone_number": $scope.testData.phone_number,
-        "tenant":       $scope.testData.tenant,
-        "mcp":          $scope.testData.mcp,
-        "status":       0 
-      });
-
-      sharedTests.saveTests($params);
-      $scope.testData.phone_number = '';
-      $scope.testData.tenant = '';
-      $scope.testData.mcp = '';
-      }
-  };
-
-// copies test data into new test form
+  /*  copy test data to create test form and display create test section when 'copy' button is pressed */
   $scope.copyTest = function(test) {
+    console.log(test);
     $scope.testData.phone_number = test.phone_number;
     $scope.testData.tenant = test.tenant.name;
     $scope.testData.mcp = test.mcp.ip_address;
     $scope.isCollapsed = false;
   };
 
-// copies test attribute into search box or clears it depending
-// on what is passed
+  /*  copy a clicked element within tests to the search box to filter them */
   $scope.copySearchTests = function(search, id) {
     $scope.searchTests = search;
     $scope.showHide(id);
   };
 
+  /*  scope search results */
   $scope.copySearchResults = function(search) {
     $scope.searchResults = search;
   };
 
-  $scope.gotoTop = function() {
-    $location.hash('top');
-    $anchorScroll();
-  };
+}]);
 
+//
+// Config controller
+//
+vwApp.controller('ConfigController', function($scope){
+  $scope.results = ['rehe', 'raha', 'roho'];
 });
+
+
