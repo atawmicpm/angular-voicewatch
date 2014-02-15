@@ -9,7 +9,8 @@ vwApp.controller('TestsController', ['$scope', '$timeout', '$compile', '$filter'
   $scope.pageSize = 10;     // set number of test results per page
   $scope.tenants = [];      // initialize tenants array for new tenant creation auto complete
   $scope.mcps = [];         // initialize mcps array for new tenant creation auto complete
-  
+  $scope.spinner = false;   // hide the ajax-loader.gif on page load
+
   $scope.showResults = false;     // make the test button say 'show results >' to start
   $scope.isCollapsed = true;      // set the create new test view to collapsed to start
   $scope.configCollapsed = true;  // set the config view collapsed to start
@@ -76,11 +77,14 @@ vwApp.controller('TestsController', ['$scope', '$timeout', '$compile', '$filter'
       sharedTests.getTest(id).then(function(test){
         $scope.searchTests = test.phone_number;
       });
+      $scope.spinner = true;
       $scope.showResults = true;
     } else {
       $location.path('/');
+      $scope.spinner = false;
       $scope.resultsFaded = true;
       $scope.showResults = false;
+
     }
   };
 
@@ -98,6 +102,7 @@ vwApp.controller('TestsController', ['$scope', '$timeout', '$compile', '$filter'
     $scope.filteredResults = $filter('orderBy')($scope.filteredResults, 'updated_at', true);
     $scope.totalItems = $scope.filteredResults.length;
     $scope.currentPage = 1;
+    $scope.spinner = false;
     $scope.resultsFaded = false;
   });
 

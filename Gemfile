@@ -29,8 +29,6 @@ gem 'protected_attributes'
 gem 'sidekiq'
 gem 'clockwork'
 gem 'lame'
-gem 'waveform'
-gem 'oily_png'
 gem 'newrelic_rpm'
 
 
