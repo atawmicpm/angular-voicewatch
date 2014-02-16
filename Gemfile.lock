@@ -44,7 +44,6 @@ GEM
       sshkit (~> 1.2)
     celluloid (0.15.2)
       timers (~> 1.1.0)
-    chunky_png (1.2.9)
     clockwork (0.7.0)
       activesupport
       tzinfo (~> 0.3.35)
@@ -70,8 +69,6 @@ GEM
       net-ssh (>= 2.6.5)
     net-ssh (2.7.0)
     newrelic_rpm (3.7.2.192)
-    oily_png (1.1.0)
-      chunky_png (~> 1.2.7)
     oj (2.5.3)
     pg (0.17.1)
     polyglot (0.3.3)
@@ -102,7 +99,6 @@ GEM
     redis (3.0.7)
     redis-namespace (1.4.1)
       redis (~> 3.0.4)
-    ruby-audio (1.6.1)
     sass (3.2.13)
     sass-rails (4.0.1)
       railties (>= 4.0.0, < 5.0)
@@ -146,9 +142,6 @@ GEM
       kgio (~> 2.6)
       rack
       raindrops (~> 0.7)
-    waveform (0.1.2)
-      chunky_png
-      ruby-audio
 
 PLATFORMS
   ruby
@@ -163,7 +156,6 @@ DEPENDENCIES
   jbuilder (~> 1.2)
   lame
   newrelic_rpm
-  oily_png
   oj
   pg
   protected_attributes
@@ -173,4 +165,3 @@ DEPENDENCIES
   sdoc
   sidekiq
   unicorn
-  waveform

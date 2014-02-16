@@ -1,7 +1,4 @@
-
-//
-//  Tests controller
-//
+/* Tests Controller */
 vwApp.controller('TestsController', ['$scope', '$timeout', '$compile', '$filter', '$location', '$routeParams', '$route', 'sharedTests', 'ezConfirm', 
   function($scope, $timeout, $compile, $filter, $location, $routeParams, $route, sharedTests, ezConfirm){
 

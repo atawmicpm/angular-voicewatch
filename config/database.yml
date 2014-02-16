@@ -17,7 +17,7 @@
 development:
   adapter: postgresql
   encoding: unicode
-  database: voicealert_development
+  database: voicewatch_development
   pool: 5
   # username: voicealert
   # password:
@@ -52,9 +52,19 @@ test:
   # password:
 
 production:
-  adapter: postgresql
-  encoding: unicode
-  database: voicealert_production
+  adapter: mysql2
+  encoding: utf8
+  database: voicaelert
   pool: 5
   username: voicealert
   password: voicealert
+  host: 10.10.10.20
+  # socket: /tmp/mysql.sock
+
+# production:
+#   adapter: postgresql
+#   encoding: unicode
+#   database: voicealert_production
+#   pool: 5
+#   username: voicealert
+#   password: voicealert
