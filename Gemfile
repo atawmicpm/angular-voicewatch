@@ -31,6 +31,7 @@ gem 'clockwork'
 gem 'lame'
 gem 'newrelic_rpm'
 gem 'seamless_database_pool'
+gem 'makara', :path => './makara'
 
 # Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
 # gem 'turbolinks'
