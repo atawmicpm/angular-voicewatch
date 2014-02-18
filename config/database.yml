@@ -1,22 +1,32 @@
 production:
   adapter: 'makara_mysql2'
   database: 'voicealert'
-  # any other standard AR configurations
-
-  # add a makara subconfig
+  username: 'voicealert'
+  password: 'voicealert'
   makara:
-
-    # the following are default values
     blacklist_duration: 5
     master_ttl: 5
     sticky: false
     rescue_connection_failures: true
-
-    # list your connections with the override values (they're merged into the top-level config)
-    # be sure to provide the role if master, role is assumed to be a slave if not provided
     connections:
       - role: master
-        host: '10.10.10.10'
+        host: 10.10.10.10
       - role: slave
-        host: '10.10.10.11'
+        host: 10.10.10.11
 
+# production:
+#   adapter: seamless_database_pool
+#   database: voicealert
+#   username: voicealert
+#   password: voicealert
+#   pool_adapter: mysql2
+#   port: 3306
+#   master:
+#     host: 10.10.10.10
+#     port: 3306
+#     username: voicealert
+#     password: voicealert
+#   read_pool:
+#     - host: 10.10.10.10
+#       pool_weight: 2
+#     - host: 10.10.10.11
