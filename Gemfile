@@ -30,7 +30,7 @@ gem 'sidekiq'
 gem 'clockwork'
 gem 'lame'
 gem 'newrelic_rpm'
-
+gem 'seamless_database_pool'
 
 # Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
 # gem 'turbolinks'

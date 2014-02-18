@@ -51,14 +51,32 @@ test:
   # username: voicealert
   # password:
 
+# production:
+#   adapter: mysql2
+#   encoding: utf8
+#   database: voicaelert
+#   pool: 5
+#   username: voicealert
+#   password: voicealert
+#   host: 10.10.10.20
+
 production:
-  adapter: mysql2
-  encoding: utf8
-  database: voicaelert
-  pool: 5
+  adapter: seamless_database_pool
+  database: voicealert
   username: voicealert
   password: voicealert
-  host: 10.10.10.20
+  pool_adapter: mysql2
+  port: 3306
+  master:
+    host: 10.10.10.10
+    port: 3306
+    username: voicealert
+    password: voicealert
+  read_pool:
+    - host: 10.10.10.11
+      pool_weight: 2
+    - host: read-db-2.example.com
+
   # socket: /tmp/mysql.sock
 
 # production:
