@@ -14,6 +14,10 @@ module Clockwork
     tests.each do |test|
       puts "Test ID: #{test.id}"
       TestRunner.perform_async(test.id)
+
+      if test.status > 1
+        Emailer.perform_async(test.id)
+      end
     end
   }
 

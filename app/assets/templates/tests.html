@@ -8,21 +8,20 @@
 <button id="create-test-button" class="btn btn-default" ng-click="configCollapsed = !configCollapsed">
     Configure 
     <span class="pull-right fui-gear"></span>
-<!--     <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': !configCollapsed, 'glyphicon-chevron-right': configCollapsed}"></i> -->
 </button>
 
 <hr>
 
 <div collapse="configCollapsed">
   <div class="well well-lg">
-    <form class="form-inline">
+    <form name="settingsForm" class="form-inline">
 
-      <input class="form-control" type="text" name="smtp" ng-model="configData.smtp" placeholder="SMTP Server" />
+      <input class="form-control" type="text" name="smtp" ng-model="settingsData.smtp" placeholder="SMTP Server" />
 
-      <input class="form-control" type="text" name="tenant" ng-model="configData.email" placeholder="Email addresses" />
+      <input class="form-control" type="text" name="tenant" ng-model="settingsData.email" placeholder="Email addresses" />
 
 
-      <button class="btn btn-success" ng-click="saveSettings(configData)">
+      <button class="btn btn-success" ng-click="saveSettings(settingsData)">
         Save Settings
       </button>        
 

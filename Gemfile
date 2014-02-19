@@ -4,7 +4,7 @@ source 'https://rubygems.org'
 gem 'rails', '4.0.2'
 
 # Use postgresql as the database for Active Record
-# gem 'pg'
+gem 'pg', group: [:development]
 gem 'mysql2'
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 4.0.0'
@@ -30,8 +30,9 @@ gem 'sidekiq'
 gem 'clockwork'
 gem 'lame'
 gem 'newrelic_rpm'
+gem 'mail'
 # gem 'seamless_database_pool'
-gem 'makara', :path => './makara'
+# gem 'makara', :path => './makara'
 
 # Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
 # gem 'turbolinks'

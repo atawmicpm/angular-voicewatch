@@ -42,3 +42,33 @@ vwApp.factory('sharedTests', ['$http', '$rootScope', function($http, $rootScope)
 
   };
 }]);
+
+
+vwApp.factory('appSettings', ['$http', '$rootScope', function($http, $rootScope){
+
+  $http.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded";
+
+  return {
+
+    get: function() {
+      return $http.get('/settings/1.json').then(function(response){
+        settings = response.data;
+        $rootScope.$broadcast('updateSettings', settings);
+        return settings;
+      });
+    },   
+
+    save: function($params) {
+      return $http({
+        headers: {'Content-Type': 'application/json' },
+        url: '/settings.json',
+        method: 'POST',
+        data: $params
+      }).success(function(response){
+        settings = response;
+        $rootScope.$broadcast('updateSettings', settings);
+      });
+    }
+
+  };
+}]);

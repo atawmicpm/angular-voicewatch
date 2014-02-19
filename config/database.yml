@@ -1,3 +1,8 @@
+development:
+  adapter: postgresql
+  database: voicewatch_development
+  # username: 
+
 production:
   adapter: 'makara_mysql2'
   database: 'voicealert'

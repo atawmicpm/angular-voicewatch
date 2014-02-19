@@ -22,3 +22,6 @@ tests = Test.create([
   {phone_number: '+18558435355', tenant_id: Tenant.last.id, mcp_id: Mcp.first.id, status: 0},
   ])
 
+settings = Setting.create([
+  {smtp: 'localhost', email:'phillip.mispagel@genesyslab.com'},
+  ])

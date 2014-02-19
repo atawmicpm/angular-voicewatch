@@ -1,6 +1,6 @@
 /* Tests Controller */
-vwApp.controller('TestsController', ['$scope', '$timeout', '$compile', '$filter', '$location', '$routeParams', '$route', 'sharedTests', 'ezConfirm', 
-  function($scope, $timeout, $compile, $filter, $location, $routeParams, $route, sharedTests, ezConfirm){
+vwApp.controller('TestsController', ['$scope', '$timeout', '$compile', '$filter', '$location', '$routeParams', '$route', 'sharedTests', 'ezConfirm', 'appSettings',
+  function($scope, $timeout, $compile, $filter, $location, $routeParams, $route, sharedTests, ezConfirm, appSettings){
 
   $scope.currentPage = 1;   // set initial page for pagination
   $scope.pageSize = 10;     // set number of test results per page
@@ -13,6 +13,20 @@ vwApp.controller('TestsController', ['$scope', '$timeout', '$compile', '$filter'
   $scope.configCollapsed = true;  // set the config view collapsed to start
   $scope.resultsFaded = true;     // make sure the test results view is hidden 
   $scope.testData = {};           // create initial object for create test form
+  $scope.settingsData = {};        // create initial object for settings data form
+
+  /* grab application settings from REST API and display */
+  appSettings.get().then(function(settings){
+    $scope.settingsData = settings;
+  });
+
+  $scope.saveSettings = function(){
+      $params = {
+        "smtp":   $scope.settingsData.smtp,
+        "email":  $scope.settingsData.email,
+      };
+      appSettings.save($params);
+  };
 
   /*  grab initial tests from REST API to display in the view */
   sharedTests.getTests().then(function(tests){
@@ -28,6 +42,7 @@ vwApp.controller('TestsController', ['$scope', '$timeout', '$compile', '$filter'
       }
     });
   });
+
 
   /*  grab new tests from REST API and update the UI every 30 seconds */
   setInterval(function(){
@@ -65,6 +80,10 @@ vwApp.controller('TestsController', ['$scope', '$timeout', '$compile', '$filter'
   /*  update tests array any time the sharedTests factory broadcasts updateTests */
   $scope.$on('updateTests', function(events, tests) {
     $scope.tests = tests;
+  });
+
+  $scope.$on('updateSettings', function(events, settings) {
+    $scope.settings = settings;
   });
 
   /*  show tests results if an id is passed in, hide results if not */
