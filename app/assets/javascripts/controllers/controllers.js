@@ -49,6 +49,8 @@ vwApp.controller('TestsController', ['$scope', '$timeout', '$compile', '$filter'
     sharedTests.getTests().then(function(tests){
       $scope.tests = tests;
     });
+    var id = $location.path().match(/\d+/g);
+    sharedTests.getTest(id);
   }, 30000);
 
   /*  popup delete confirmation box, if yes then run deleteTest function from the sharedTests factory */

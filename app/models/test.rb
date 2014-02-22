@@ -11,6 +11,30 @@ class Test < ActiveRecord::Base
     "every #{frequency} minutes"
   end
 
+  def tenant_stats hours
+    tenant      = self.tenant
+    mcp         = self.mcp
+    disconnects = 0
+    failures    = 0
+    successes   = 0
+
+    tenant.tests.each {|test| 
+      test.results.where(updated_at: hours.hour.ago..DateTime.now).each {|result| 
+        disconnects += 1 unless result.status
+        failures    += 1 if result.status.to_i == 1
+        successes   += 1 if result.status.to_i == 0  
+      }
+    }
+    
+    total = successes + failures + disconnects
+
+    s_percentage = (successes.to_f / total * 100).to_i
+    f_percentage = (failures.to_f / total * 100).to_i
+    d_percentage = (disconnects.to_f / total * 100).to_i
+
+    [successes, failures, disconnects, s_percentage, f_percentage, d_percentage]
+  end
+
   def mcp_stats hours
     mcp         = self.mcp
     disconnects = 0

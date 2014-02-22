@@ -1,5 +1,6 @@
 
 
+<div class="row">
 <button id="create-test-button" class="btn btn-default" ng-click="isCollapsed = !isCollapsed">
     Create Test
     <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': !isCollapsed, 'glyphicon-chevron-right': isCollapsed}"></i>
@@ -11,7 +12,9 @@
 </button>
 
 <hr>
+</div>
 
+<div class="row">
 <div collapse="configCollapsed">
   <div class="well well-lg">
     <form name="settingsForm" class="form-inline">
@@ -28,7 +31,9 @@
     </form>
   </div> 
 </div>
+</div>
 
+<div class="row">
 <div collapse="isCollapsed">
   <div class="well well-lg">
     <form name="testForm" class="form-inline" ng-submit="createTest()" novalidate>
@@ -85,7 +90,9 @@
     </form>
   </div> 
 </div>
+</div>
 
+<div class="row">
 <div class="well">
 <form class="form-inline">
   <input class="form-control" type="text" ng-model="searchTests" placeholder="Search tests..." />
@@ -168,9 +175,11 @@
   </table>
 </div>
 </div>
-
+</div>
 <div ng-show="spinner"><center><img src="/assets/ajax-loader.gif"></center></div>
 <div transition="fade" do-it="resultsFaded">
+
+<div id ="stats-container" class="row">
 
 <div class="dashboard-panel-6 pull-left">
 <div class="well">
@@ -234,20 +243,18 @@
 </div>
 
 <div class="dashboard-panel-6 pull-right">
-  <ul class="nav nav-tabs nav-append-content">
-    <li class="active"><a class="background" href="#fakelink">MCP</a></li>
-    <li><a href="#fakelink">Tenant</a></li>
-  </ul>
-  <div class="tab-content background">
+
+  <tabset>
+    <tab heading="MCP" class="pointer">
   <table class="table table-striped">
 
     <thead>
       <tr>
-        <td style="width: 35%;"></td>
-        <td style="width: 50%;"></td>
-        <td style="width: 5%;"><span class="fui-check-inverted success" tooltip="Successes"></td>
-        <td style="width: 5%;"><span class="fui-cross-inverted danger" tooltip="Failures"></td>
-        <td style="width: 5%;"><span class="fui-question warning" tooltip="Unknown test results, this may indicate an issue connecting to the MCP"></td>
+        <td style="width: 24%;"></td>
+        <td style="width: 40%;"></td>
+        <td style="width: 14%;" class="numbers"><span class="fui-check-inverted success" tooltip="Successes"></td>
+        <td style="width: 14%;" class="numbers"><span class="fui-cross-inverted danger" tooltip="Failures"></td>
+        <td style="width: 14%;" class="numbers"><span class="fui-question warning" tooltip="Unknown test results, this may indicate an issue connecting to the MCP"></td>
       </tr>
     </thead>
 
@@ -301,14 +308,88 @@
 
       </tr>
     </table>
+  </tab>
+
+  <tab heading="Tenant" class="pointer">
+  <table class="table table-striped">
+
+    <thead>
+      <tr>
+        <td style="width: 24%;"></td>
+        <td style="width: 40%;"></td>
+        <td style="width: 14%;" class="numbers"><span class="fui-check-inverted success" tooltip="Successes"></td>
+        <td style="width: 14%;" class="numbers"><span class="fui-cross-inverted danger" tooltip="Failures"></td>
+        <td style="width: 14%;" class="numbers"><span class="fui-question warning" tooltip="Unknown test results, this may indicate an issue connecting to the MCP"></td>
+      </tr>
+    </thead>
+
+    <tbody>
+
+      <tr>
+        <td>1 Hour</td>
+        <td>
+          <div tooltip="PASS: {{ testStats.tenant_stats[3] }}%&nbsp;&nbsp;  FAIL: {{ testStats.tenant_stats[4] }}% &nbsp;&nbsp;UNKNOWN: {{ testStats.tenant_stats[5] }}%">
+            <progress class="progress-striped active" max="100" animated="true" style="height: 15px;">
+              <bar value="testStats.tenant_stats[3]" type="success"></bar>
+              <bar value="testStats.tenant_stats[4]" type="danger"></bar>
+              <bar value="testStats.tenant_stats[5]" type="warning"></bar>
+            </progress>
+          </div>
+        <td>{{ testStats.tenant_stats[0] }}</td>
+        <td>{{ testStats.tenant_stats[1] }}</td>
+        <td>{{ testStats.tenant_stats[2] }}</td>
+
+      </tr>
+
+      <tr>
+        <td>24 Hours</td>
+        <td>
+          <div tooltip="PASS: {{ testStats.tenant_stats24[3] }}%&nbsp;&nbsp;  FAIL: {{ testStats.tenant_stats24[4] }}% &nbsp;&nbsp;UNKNOWN: {{ testStats.tenant_stats24[5] }}%">
+            <progress class="progress-striped active" max="100" animated="true" style="height: 15px;">
+              <bar value="testStats.tenant_stats24[3]" type="success"></bar>
+              <bar value="testStats.tenant_stats24[4]" type="danger"></bar>
+              <bar value="testStats.tenant_stats24[5]" type="warning"></bar>
+            </progress>
+          </div>
+        <td>{{ testStats.tenant_stats24[0] }}</td>
+        <td>{{ testStats.tenant_stats24[1] }}</td>
+        <td>{{ testStats.tenant_stats24[2] }}</td>
+
+      </tr>
+
+      <tr>
+        <td>7 Days</td>
+        <td>
+          <div tooltip="PASS: {{ testStats.tenant_stats24x7[3] }}%&nbsp;&nbsp;  FAIL: {{ testStats.tenant_stats24x7[4] }}% &nbsp;&nbsp;UNKNOWN: {{ testStats.tenant_stats24x7[5] }}%">
+            <progress class="progress-striped active" max="100" animated="true" style="height: 15px;">
+              <bar value="testStats.tenant_stats24x7[3]" type="success"></bar>
+              <bar value="testStats.tenant_stats24x7[4]" type="danger"></bar>
+              <bar value="testStats.tenant_stats24x7[5]" type="warning"></bar>
+            </progress>
+          </div>
+        <td>{{ testStats.tenant_stats24x7[0] }}</td>
+        <td>{{ testStats.tenant_stats24x7[1] }}</td>
+        <td>{{ testStats.tenant_stats24x7[2] }}</td>
+
+      </tr>
+    </table>
+
+  </tab>
+  </tabset>
   </div>
+
+<!--     <div class="well" style="position: relative;">
+  <div id="wavesurfer{{ testData.results.last.id }}">
+    <wave-surfer recording="{{ testData.result.last.recording }}" resultId="{{ testData.result.last.id }}"></wave-surfer>
   </div>
+  </div> -->
 </div>
 </div>
 
+</div>
 <div transition="fade" do-it="resultsFaded">
-<div class="well" style="margin-top: 320px;">
-<!-- <div class="well"> -->
+<div class="row">
+<div class="well">
   <div class="form-inline pull-left">
     <input class="form-control" type="text" ng-model="searchResults" placeholder="Search results..." />
     <button class="btn btn-info" ng-click="copySearchResults()">
@@ -325,22 +406,33 @@
       max-size="5"
     ></pagination>
   </div>
-  <!-- <br>  -->
-  <div id="wavesurfer"></div>
+
+
 
   <table class="table table-striped">
-
     <thead>
       <tr>
-        <td><b>Log</b></td>
-        <td><b>When?</b></td>
+        <td><b></b></td>
+        <td><b></b></td>
       </tr>
     </thead>
 
     <tbody>
       <tr ng-repeat="result in filteredResults |filter:searchResults |orderBy:'updated_at':true |startFrom:(currentPage-1)*pageSize |limitTo:pageSize" on-finish-render>
+
+<!-- <p><i class="fa fa-camera-retro fa-lg"></i> fa-camera-retro</p>
+<p><i class="fa fa-camera-retro fa-2x"></i> fa-camera-retro</p>
+<p><i class="fa fa-camera-retro fa-3x"></i> fa-camera-retro</p>
+<p><i class="fa fa-camera-retro fa-4x"></i> fa-camera-retro</p>
+<p><i class="fa fa-camera-retro fa-5x"></i> fa-camera-retro</p> -->
+
         <td>
-          <p style="white-space: pre;"><small>{{ result.log }}</small></p>
+  <!--         ng-class="{'glyphicon-chevron-down': !isCollapsed, 'glyphicon-chevron-right': isCollapsed}"
+            <td style="width: 14%;" class="numbers"><span class="fui-check-inverted success" tooltip="Successes"></td>
+        <td style="width: 14%;" class="numbers"><span class="fui-cross-inverted danger" tooltip="Failures"></td> -->
+          <!-- <p style="white-space: pre;"><small>{{ result.log }}</small></p> -->
+          <i class="fui fa-check-circle fa-2x success"></i>
+          <div ng-class="{'fa fa-check-circle fa-2x success': result.status == 0, 'fa fa-times-circle fa-2x danger': result.status == 1}"></div>
           <div id="wavesurfer{{ result.id }}" class="wave-background"></div>
 
         </td>
@@ -352,5 +444,6 @@
       </tr>
     </tbody>
   </table>
+</div>
 </div>
 </div>
