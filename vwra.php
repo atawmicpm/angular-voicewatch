@@ -3,7 +3,7 @@
   $log = "file:/VWRA_Test_Logging/" . $result_id . ".log";
 ?>
 
-<?xml version="1.0"?>
+<?php echo '<?xml version="1.0"?>'; ?>
 <vxml version="2.1" xmlns="http://www.w3.org/2001/vxml" xmlns:gvp="http://www.genesyslab.com/2006/vxml21-extension">
 
 <!-- Need to remove telephone-event under mpc.codec for mcp in order to work -->
@@ -69,26 +69,31 @@
 <!-- Main Application -->
 <var name="dtmf_reply" expr="''"/>
 <var name="speech_reply" expr="''"/>
-  
-<form id="dtmf">
-  
-  <block>
-        <log gvp:dest="calllog">
-                enable callrec recsrc=mixed type=audio/wav;codec=alaw;
-                directory ../logs/VWRA_Test_Logging absolute;
-        </log>
 
-  <log gvp:dest="<?php echo $log; ?>"> VWRA Test Begin </log>
-  <log gvp:dest="<?php echo $log; ?>"> GVP Session ID: <value expr="session.com.genesyslab.sessionid"/> </log>
+<form id="dtmf">
+
+  <catch event="connection.disconnect.hangup">
+      <log gvp:dest="<?php echo $log; ?>"> Error: Call Disconnected </log>
+  </catch>
+
+  <block>
+
+    <log gvp:dest="calllog">
+      enable callrec recsrc=mixed type=audio/wav;codec=alaw;
+      directory ../logs/VWRA_Test_Logging absolute;
+    </log>
+
+    <log gvp:dest="<?php echo $log; ?>"> VWRA Test Begin </log>
+    <log gvp:dest="<?php echo $log; ?>"> GVP Session ID: <value expr="session.com.genesyslab.sessionid"/> </log>
 
   </block>
 
-        <block>
-    
-        <log gvp:dest="<?php echo $log; ?>"> Begin DTMF Recognition Test </log>
-    
-    </block>
-    
+  <block>
+
+  <log gvp:dest="<?php echo $log; ?>"> Begin DTMF Recognition Test </log>
+
+  </block>
+
   <record name="Main_Menu" Finalsilence="1s">
     <filled>
       <if cond="(Main_Menu$.duration - 1000) &lt; Main_Menu_Lower || (Main_Menu$.duration - 1000) &gt; Main_Menu_Upper">
@@ -101,7 +106,7 @@
       </if>
     </filled>
   </record>
-    
+
   <record name="DTMF_First" Finalsilence="1s">
     <filled>
       <if cond="(DTMF_First$.duration - 1000) &lt; DTMF_First_Lower || (DTMF_First$.duration - 1000) &gt; DTMF_First_Upper">
@@ -129,8 +134,8 @@
       </if>
     </filled>
   </record>
-    
-      
+
+
   <field name="dtmfInput">
     <property name="inputmodes" value="dtmf" />
 
@@ -145,7 +150,7 @@
         <else/>
           <throw event="nomatch"/>
         </if>
-            </filled> 
+            </filled>
 
       <noinput>
         <log gvp:dest="<?php echo $log; ?>"> Error: No Input; Context: DTMF Recognition Test  </log>
@@ -157,7 +162,7 @@
         <exit/>
             </nomatch>
 
-        </field>  
+        </field>
 
     </form>
 
@@ -165,15 +170,19 @@
 
 <form id="speech">
 
+  <catch event="connection.disconnect.hangup">
+        <log gvp:dest="<?php echo $log; ?>"> Error: Call Disconnected </log>
+  </catch>
+
   <block>
     <log gvp:dest="<?php echo $log; ?>"> Begin Speech Resource Test </log>
   </block>
-    
+
   <record name="Main_Menu" Finalsilence="1s">
     <filled>
       <if cond="(Main_Menu$.duration - 1000) &lt; Main_Menu_Lower || (Main_Menu$.duration - 1000) &gt; Main_Menu_Upper">
         <log gvp:dest="<?php echo $log; ?>"> Error: Prompt Duration not in Range; Context: Main Menu </log>
-        <log gvp:dest="<?php echo $log; ?>"> Expected Range: <value expr="Main_Menu_Lower"/> to <value expr="Main_Menu_Upper"/>; Actual: <value expr="(Main_Menu$.duration - 1000)"/> </log>         
+        <log gvp:dest="<?php echo $log; ?>"> Expected Range: <value expr="Main_Menu_Lower"/> to <value expr="Main_Menu_Upper"/>; Actual: <value expr="(Main_Menu$.duration - 1000)"/> </log>
         <exit/>
       <else/>
         <log gvp:dest="<?php echo $log; ?>"> Prompt Duration is: <value expr="(Main_Menu$.duration - 1000)"/>; Context: Main Menu </log>
@@ -181,12 +190,12 @@
       </if>
     </filled>
   </record>
-    
+
   <record name="Speech_First" Finalsilence="1s">
     <filled>
       <if cond="(Speech_First$.duration - 1000) &lt; Speech_First_Lower || (Speech_First$.duration - 1000) &gt; Speech_First_Upper">
         <log gvp:dest="<?php echo $log; ?>"> Error: Prompt Duration not in Range; Context: Speech First Menu </log>
-        <log gvp:dest="<?php echo $log; ?>"> Expected Range: <value expr="Speech_First_Lower"/> to <value expr="Speech_First_Upper"/>; Actual: <value expr="(Speech_First$.duration - 1000)"/> </log>    
+        <log gvp:dest="<?php echo $log; ?>"> Expected Range: <value expr="Speech_First_Lower"/> to <value expr="Speech_First_Upper"/>; Actual: <value expr="(Speech_First$.duration - 1000)"/> </log>
         <exit/>
       <else/>
         <log gvp:dest="<?php echo $log; ?>"> Prompt Duration is: <value expr="(Speech_First$.duration - 1000)"/>; Context: Speech First Menu </log>
@@ -199,7 +208,7 @@
     <filled>
       <if cond="(Speech_Second$.duration - 1000) &lt; Speech_Second_Lower || (Speech_Second$.duration - 1000) &gt; Speech_Second_Upper">
         <log gvp:dest="<?php echo $log; ?>"> Error: Prompt Duration not in Range; Context: Speech Second Menu </log>
-        <log gvp:dest="<?php echo $log; ?>"> Expected Range: <value expr="Speech_Second_Lower"/> to <value expr="Speech_Second_Upper"/>; Actual: <value expr="(Speech_Second$.duration - 1000)"/> </log> 
+        <log gvp:dest="<?php echo $log; ?>"> Expected Range: <value expr="Speech_Second_Lower"/> to <value expr="Speech_Second_Upper"/>; Actual: <value expr="(Speech_Second$.duration - 1000)"/> </log>
         <exit/>
       <else/>
         <log gvp:dest="<?php echo $log; ?>"> Prompt Duration is: <value expr="(Speech_Second$.duration - 1000)"/>; Context: Speech Second Menu </log>
@@ -208,7 +217,7 @@
         </prompt>
         </if>
     </filled>
-  </record>       
+  </record>
 
   <field name="dtmfInput">
 
@@ -242,15 +251,19 @@
 
 <form id="tts">
 
-    <block>
-  <log gvp:dest="<?php echo $log; ?>"> Begin TTS Test </log>
+  <catch event="connection.disconnect.hangup">
+        <log gvp:dest="<?php echo $log; ?>"> Error: Call Disconnected </log>
+  </catch>
+
+  <block>
+    <log gvp:dest="<?php echo $log; ?>"> Begin TTS Test </log>
   </block>
-    
+
   <record name="Main_Menu" Finalsilence="1s">
     <filled>
       <if cond="(Main_Menu$.duration - 1000) &lt; Main_Menu_Lower || (Main_Menu$.duration - 1000) &gt; Main_Menu_Upper">
         <log gvp:dest="<?php echo $log; ?>"> Error: Prompt Duration not in Range; Context: Main Menu </log>
-        <log gvp:dest="<?php echo $log; ?>"> Expected Range: <value expr="Main_Menu_Lower"/> to <value expr="Main_Menu_Upper"/>; Actual: <value expr="(Main_Menu$.duration - 1000)"/> </log>         
+        <log gvp:dest="<?php echo $log; ?>"> Expected Range: <value expr="Main_Menu_Lower"/> to <value expr="Main_Menu_Upper"/>; Actual: <value expr="(Main_Menu$.duration - 1000)"/> </log>
         <exit/>
       <else/>
         <log gvp:dest="<?php echo $log; ?>"> Prompt Duration is: <value expr="(Main_Menu$.duration - 1000)"/>; Context: Main Menu </log>
@@ -258,12 +271,12 @@
       </if>
     </filled>
   </record>
-    
+
   <record name="TTS_First" Finalsilence="1s">
     <filled>
       <if cond="(TTS_First$.duration - 1000) &lt; TTS_First_Lower || (TTS_First$.duration - 1000) &gt; TTS_First_Upper">
         <log gvp:dest="<?php echo $log; ?>"> Error: Prompt Duration not in Range; Context: TTS First Menu </log>
-        <log gvp:dest="<?php echo $log; ?>"> Expected Range: <value expr="TTS_First_Lower"/> to <value expr="TTS_First_Upper"/>; Actual: <value expr="(TTS_First$.duration - 1000)"/> </log>           
+        <log gvp:dest="<?php echo $log; ?>"> Expected Range: <value expr="TTS_First_Lower"/> to <value expr="TTS_First_Upper"/>; Actual: <value expr="(TTS_First$.duration - 1000)"/> </log>
           <exit/>
       <else/>
         <log gvp:dest="<?php echo $log; ?>"> Prompt Duration is: <value expr="(TTS_First$.duration - 1000)"/>; Context: TTS First Menu </log>
@@ -271,13 +284,13 @@
       </if>
     </filled>
   </record>
-    
-    
+
+
   <record name="TTS_Reply" Finalsilence="1s">
     <filled>
       <if cond="(TTS_Reply$.duration - 1000) &lt; TTS_Reply_Lower || (TTS_Reply$.duration - 1000) &gt; TTS_Reply_Upper">
         <log gvp:dest="<?php echo $log; ?>"> Error: Prompt Duration not in Range; Context: TTS Test </log>
-        <log gvp:dest="<?php echo $log; ?>"> Expected Range: <value expr="TTS_Reply_Lower"/> to <value expr="TTS_Reply_Upper"/>; Actual: <value expr="(TTS_Reply$.duration - 1000)"/> </log>         
+        <log gvp:dest="<?php echo $log; ?>"> Expected Range: <value expr="TTS_Reply_Lower"/> to <value expr="TTS_Reply_Upper"/>; Actual: <value expr="(TTS_Reply$.duration - 1000)"/> </log>
         <exit/>
       <else/>
         <log gvp:dest="<?php echo $log; ?>"> Prompt Duration is: <value expr="(TTS_Reply$.duration - 1000)"/>; Context: TTS Reply </log>
@@ -295,12 +308,12 @@
     <log gvp:dest="<?php echo $log; ?>"> Begin to Disconnect </log>
     <audio src="file:///genesys/vwra/audiofile/dtmf_3.vox"/>
   </block>
-  
+
     <record name="Disconnect" Finalsilence="0.1s">
       <filled>
         <if cond="(Disconnect$.duration - 100) &lt; Disconnect_Lower || (Disconnect$.duration - 100) &gt; Disconnect_Upper">
           <log gvp:dest="<?php echo $log; ?>"> Error: Prompt Duration not in Range; Context: Disconnect </log>
-          <log gvp:dest="<?php echo $log; ?>"> Expected Range: <value expr="Disconnect_Lower"/> to <value expr="Disconnect_Upper"/>; Actual: <value expr="(Disconnect$.duration - 100)"/> </log>           
+          <log gvp:dest="<?php echo $log; ?>"> Expected Range: <value expr="Disconnect_Lower"/> to <value expr="Disconnect_Upper"/>; Actual: <value expr="(Disconnect$.duration - 100)"/> </log>
           <exit/>
         <else/>
           <log gvp:dest="<?php echo $log; ?>"> Prompt Duration is: <value expr="(Disconnect$.duration - 100)"/>; Context: Disconnect </log>
@@ -309,9 +322,10 @@
       </filled>
         </record>
 
-    
+
 
    </form>
 
 </vxml>
+
 

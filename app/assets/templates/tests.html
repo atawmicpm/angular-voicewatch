@@ -57,7 +57,7 @@
         placeholder="Tenant" 
         required
         typeahead="tenant for tenant in tenants |filter:$viewValue |limitTo:8"
-        typeahead-editable="false"
+        typeahead-editable="true"
       />
 
       <input 
@@ -105,12 +105,15 @@
         <td><b>Phone Number</b></td>
         <td><b>Tenant</b></td>
         <td><b>MCP</b></td>
+        <td><b><center>Health</center></b></td>
       </tr>
     </thead>
 
     <tbody>
       <tr ng-repeat="test in tests |orderBy:'status':true |filter:searchTests">
         
+
+
         <td>
           <center>
           <span class="badge" ng-class="{'badge-danger': test.status > 0, 'badge-success': test.status == 0}">
@@ -119,6 +122,7 @@
         </center>
         </td>
         
+
         <td class="pointer" ng-click="copySearchTests(test.phone_number, test.id)">
           {{ test.phone_number }} 
         </td>
@@ -132,14 +136,21 @@
         </td>
 
         <td>
-
+          <div tooltip="PASS: {{ test.stats[0] }}%&nbsp;&nbsp;  FAIL: {{ test.stats[1] }}% last hour">
+           <progress class="progress-striped active" max="100" animated="true" style="height: 15px;">
+            <bar value="test.stats[0]" type="success"></bar>
+            <bar value="test.stats[1]" type="danger"></bar>
+           </progress>
+          </div>
+        </td>
+        <td>
             <button id="show-results" class="btn btn-success" ng-click="copySearchTests(test.phone_number); showHide(test.id)" ng-show="!showResults">
-              show results
+              results
               <span class="glyphicon glyphicon-chevron-right pull-right">
             </button>
 
             <button id="show-results" class="btn btn-success" ng-click="copySearchTests()" ng-show="showResults">
-              hide results
+              results
               <span class="glyphicon glyphicon-chevron-down pull-right">
             </button>
         </td>
@@ -159,29 +170,162 @@
 </div>
 
 <div ng-show="spinner"><center><img src="/assets/ajax-loader.gif"></center></div>
-
 <div transition="fade" do-it="resultsFaded">
 
+<div class="dashboard-panel-6 pull-left">
 <div class="well">
-  <div>
+    <small>Test Health</small>
+
+  <table class="table table-striped">
+
+    <thead>
+      <tr>
+        <td style="width: 23%;"></td>
+        <td style="width: 57%;"></td>
+        <td style="width: 10%;"><span class="fui-check-inverted success"></td>
+        <td style="width: 10%;"><span class="fui-cross-inverted danger"></td>
+      </tr>
+    </thead>
+
+    <tbody>
+
+      <tr>
+        <td>1 Hour</td>
+        <td>          
+          <div tooltip="PASS: {{ testStats.stats[0] }}%&nbsp;&nbsp;  FAIL: {{ testStats.stats[1] }}% &nbsp;&nbsp;last hour">
+            <progress class="progress-striped active" max="100" animated="true" style="height: 15px;">
+              <bar value="testStats.stats[0]" type="success"></bar>
+              <bar value="testStats.stats[1]" type="danger"></bar>
+            </progress>
+          </div>
+        <td>{{ testStats.stats[2] }}</td>
+        <td>{{ testStats.stats[3] }}</td>
+      </tr>
+
+      <tr>
+        <td>24 Hours</td>
+        <td>          
+          <div tooltip="PASS: {{ testStats.stats24[0] }}%&nbsp;&nbsp;  FAIL: {{ testStats.stats24[1] }}% &nbsp;&nbsp;last 24 hours">
+            <progress class="progress-striped active" max="100" animated="true" style="height: 15px;">
+              <bar value="testStats.stats24[0]" type="success"></bar>
+              <bar value="testStats.stats24[1]" type="danger"></bar>
+            </progress>
+          </div>
+        </td>
+        <td>{{ testStats.stats24[2] }}</td>
+        <td>{{ testStats.stats24[3] }}</td>
+      </tr>
+
+      <tr>
+        <td>7 Days</td>
+        <td>         
+          <div tooltip="PASS: {{ testStats.stats24x7[0] }}%&nbsp;&nbsp;  FAIL: {{ testStats.stats24x7[1] }}%  &nbsp;&nbsp;last 7 days">
+            <progress class="progress-striped active" max="100" animated="true" style="height: 15px;">
+              <bar value="testStats.stats24x7[0]" type="success"></bar>
+              <bar value="testStats.stats24x7[1]" type="danger"></bar>
+            </progress>
+          </div>
+        </td>
+        <td>{{ testStats.stats24x7[2] }}</td>
+        <td>{{ testStats.stats24x7[3] }}</td>
+      </tr>
+    </table>
+</div>
+</div>
+
+<div class="dashboard-panel-6 pull-right">
+  <ul class="nav nav-tabs nav-append-content">
+    <li class="active"><a class="background" href="#fakelink">MCP</a></li>
+    <li><a href="#fakelink">Tenant</a></li>
+  </ul>
+  <div class="tab-content background">
+  <table class="table table-striped">
+
+    <thead>
+      <tr>
+        <td style="width: 35%;"></td>
+        <td style="width: 50%;"></td>
+        <td style="width: 5%;"><span class="fui-check-inverted success" tooltip="Successes"></td>
+        <td style="width: 5%;"><span class="fui-cross-inverted danger" tooltip="Failures"></td>
+        <td style="width: 5%;"><span class="fui-question warning" tooltip="Unknown test results, this may indicate an issue connecting to the MCP"></td>
+      </tr>
+    </thead>
+
+    <tbody>
+
+      <tr>
+        <td>1 Hour</td>
+        <td>
+          <div tooltip="PASS: {{ testStats.mcp_stats[3] }}%&nbsp;&nbsp;  FAIL: {{ testStats.mcp_stats[4] }}% &nbsp;&nbsp;UNKNOWN: {{ testStats.mcp_stats[5] }}%">
+            <progress class="progress-striped active" max="100" animated="true" style="height: 15px;">
+              <bar value="testStats.mcp_stats[3]" type="success"></bar>
+              <bar value="testStats.mcp_stats[4]" type="danger"></bar>
+              <bar value="testStats.mcp_stats[5]" type="warning"></bar>
+            </progress>
+          </div>
+        <td>{{ testStats.mcp_stats[0] }}</td>
+        <td>{{ testStats.mcp_stats[1] }}</td>
+        <td>{{ testStats.mcp_stats[2] }}</td>
+
+      </tr>
+
+      <tr>
+        <td>24 Hours</td>
+        <td>
+          <div tooltip="PASS: {{ testStats.mcp_stats24[3] }}%&nbsp;&nbsp;  FAIL: {{ testStats.mcp_stats24[4] }}% &nbsp;&nbsp;UNKNOWN: {{ testStats.mcp_stats24[5] }}%">
+            <progress class="progress-striped active" max="100" animated="true" style="height: 15px;">
+              <bar value="testStats.mcp_stats24[3]" type="success"></bar>
+              <bar value="testStats.mcp_stats24[4]" type="danger"></bar>
+              <bar value="testStats.mcp_stats24[5]" type="warning"></bar>
+            </progress>
+          </div>
+        <td>{{ testStats.mcp_stats24[0] }}</td>
+        <td>{{ testStats.mcp_stats24[1] }}</td>
+        <td>{{ testStats.mcp_stats24[2] }}</td>
+
+      </tr>
+
+      <tr>
+        <td>7 Days</td>
+        <td>
+          <div tooltip="PASS: {{ testStats.mcp_stats24x7[3] }}%&nbsp;&nbsp;  FAIL: {{ testStats.mcp_stats24x7[4] }}% &nbsp;&nbsp;UNKNOWN: {{ testStats.mcp_stats24x7[5] }}%">
+            <progress class="progress-striped active" max="100" animated="true" style="height: 15px;">
+              <bar value="testStats.mcp_stats24x7[3]" type="success"></bar>
+              <bar value="testStats.mcp_stats24x7[4]" type="danger"></bar>
+              <bar value="testStats.mcp_stats24x7[5]" type="warning"></bar>
+            </progress>
+          </div>
+        <td>{{ testStats.mcp_stats24x7[0] }}</td>
+        <td>{{ testStats.mcp_stats24x7[1] }}</td>
+        <td>{{ testStats.mcp_stats24x7[2] }}</td>
+
+      </tr>
+    </table>
+  </div>
+  </div>
+</div>
+</div>
+
+<div transition="fade" do-it="resultsFaded">
+<div class="well" style="margin-top: 320px;">
+<!-- <div class="well"> -->
   <div class="form-inline pull-left">
     <input class="form-control" type="text" ng-model="searchResults" placeholder="Search results..." />
     <button class="btn btn-info" ng-click="copySearchResults()">
       clear
     </button>
   </div>
-<div class="pagination pull-right pagination-margin">
-<pagination 
-  total-items="totalItems" 
-  page="currentPage" 
-  class="pointer" 
-  boundary-links="true" 
-  rotate="true"
-  max-size="5"
-></pagination>
-</div>
-</div>
-  <br> 
+  <div class="pagination pull-right pagination-margin">
+    <pagination 
+      total-items="totalItems" 
+      page="currentPage" 
+      class="pointer" 
+      boundary-links="true" 
+      rotate="true"
+      max-size="5"
+    ></pagination>
+  </div>
+  <!-- <br>  -->
   <div id="wavesurfer"></div>
 
   <table class="table table-striped">

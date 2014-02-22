@@ -11,6 +11,36 @@ class Result < ActiveRecord::Base
     time_ago_in_words(self.updated_at)
   end
 
+  def email(sounds)
+    test = self.test
+    errors = 0
+    test.results[-3..-1].each do |result|
+      errors += result.status.to_i
+    end
+
+    mp3 = "#{test.results.last.id}.mp3"
+    path = sounds
+
+    if errors > 1
+      setting = Setting.last
+      mail = Mail.new do
+        from     'voicealert@genesyscloud.com'
+        to       setting.email
+        subject  "VoiceAlert error - #{test.phone_number} failed 2+ of 3 last tests"
+        body     "error!"
+        add_file :filename => "#{mp3}", :content => File.read("#{path}/#{mp3}")
+      end
+
+      Mail.defaults do
+        delivery_method :smtp, address: setting.smtp, port: 1025
+      end
+
+      mail.deliver!
+    end
+
+  end
+
+
   def get
     # call sip:+18558435355@10.51.33.166:5054 18554120839 http://10.51.28.54:1433/vwra.php?result_id=999999 999999
     mcp_ip = self.test.mcp.ip_address
@@ -49,17 +79,21 @@ class Result < ActiveRecord::Base
       end
     end
 
-    system("sox #{sounds}/#{self.id}.wav -e signed-integer #{sounds}/#{self.id}s.wav")
-    system("lame -V0 #{sounds}/#{self.id}s.wav #{sounds}/#{self.id}.mp3")
-    system("rm -rf #{sounds}/#{self.id}.wav")
-    system("rm -rf #{sounds}/#{self.id}s.wav")
+    system "sox #{sounds}/#{self.id}.wav -e signed-integer #{sounds}/#{self.id}s.wav"
+    system "lame -V0 #{sounds}/#{self.id}s.wav #{sounds}/#{self.id}.mp3"
+    system "rm -rf #{sounds}/#{self.id}.wav"
+    system "rm -rf #{sounds}/#{self.id}s.wav"
 
     # update the wav file URL in database
     self.recording = "/assets/#{self.id}.mp3"
 
     # save result information to database
     self.save
+
+    self.email(sounds) if self.status > 0
+
   end
+
 
 
 end

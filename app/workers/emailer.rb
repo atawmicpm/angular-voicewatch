@@ -5,17 +5,21 @@ class Emailer
     test = Test.find(test_id)
     errors = 0
     test.results[-3..-1].each do |result|
-      errors += result.status if result.status
+      errors += result.status.to_i
     end
+
+    mp3 = "#{test.results.last.id}.mp3"
+    path = '/Users/pmispagel/Desktop/dev/voicewatch/app/assets/sounds'
+    #path = '/home/voicealert/app/public/sounds'
 
     if errors > 1
       setting = Setting.last
       mail = Mail.new do
         from     'voicealert@genesyscloud.com'
         to       setting.email
-        subject  'VoiceAlert ERROR!'
+        subject  "VoiceAlert error - #{test.phone_number} failed 2+ of 3 last tests"
         body     "error!"
-        # add_file :filename => 'something.mp3', :content => File.read('/')
+        add_file :filename => "#{mp3}", :content => File.read("#{path}/#{mp3}")
       end
 
       Mail.defaults do

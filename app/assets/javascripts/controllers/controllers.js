@@ -106,7 +106,7 @@ vwApp.controller('TestsController', ['$scope', '$timeout', '$compile', '$filter'
 
   /*  update results array any time the sharedTests factory broadcasts updateResults */
   $scope.$on('updateResults', function(events, test) {
-
+    $scope.testStats = test;
     $scope.filteredResults = [];
     console.log(test);
 
