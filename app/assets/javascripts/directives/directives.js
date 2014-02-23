@@ -1,28 +1,50 @@
-/*  create <wave-surfer> HTML tag that calls wavesurfer.js, displays the waveform, and adds the play/pause button */
-vwApp.directive('waveSurfer', function ($compile) {
+/*  create <wave> HTML tag that calls wavesurfer.js, displays the waveform, and adds the play/pause button */
+vwApp.directive('wave', function ($compile) {
   return {
     restrict: 'E',
+    template: '<i class="fa fa-caret-square-o-right fa-2x"></i>',
 
-    template: '<button id="playbutton" class="btn btn-primary" data-action="play"><i class="glyphicon glyphicon-play"></i> Play / <i class="glyphicon glyphicon-pause"></i> Pause</button>',
     link:function(scope, element, attrs) {
       
       var recording = attrs.recording;
       var resultId = attrs.resultId;
+      var primary = attrs.primary;
       var wavesurfer = Object.create(WaveSurfer);
+
+
+      if (primary == 1) {
+        console.log('got a primary!');
+        angular.element('#wave').empty();
       
-      wavesurfer.init({
-        container: document.querySelector('#wavesurfer' + resultId),
-        waveColor: '#666',
-        progressColor: '#428bca',
-        height: 100,
+        wavesurfer.init({
+          container: document.querySelector('#wave'),
+          waveColor: '#666',
+          progressColor: '#3498db',
+          height: 80,
+        });
+
+        wavesurfer.load(recording);
+        // console.log(wavesurfer.load(recording));
+      };
+
+      element.bind('mouseenter', function() {
+
+        angular.element('#wave').empty();
+      
+        wavesurfer.init({
+          container: document.querySelector('#wave'),
+          waveColor: '#666',
+          progressColor: '#3498db',
+          height: 80,
+        });
+
+        wavesurfer.load(recording);
+
       });
 
-      wavesurfer.load(recording);
-      
-      element.bind('click', function(){
+      element.bind('click', function() {
         wavesurfer.playPause();
       });
-
     }
   };
 });

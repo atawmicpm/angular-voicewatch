@@ -137,11 +137,20 @@ vwApp.controller('TestsController', ['$scope', '$timeout', '$compile', '$filter'
 
     $scope.wavesurferResults = [];    
     $scope.wavesurferResults = $scope.filteredResults.slice(start,end);
-    
-    angular.forEach($scope.wavesurferResults, function(result){
-      var wavesurfer = $compile('<wave-surfer recording="' + result.recording + '" result-id="' + result.id + '"></wave-surfer>')($scope);
-      angular.element('#wavesurfer' + result.id).append(wavesurfer);
+    var length = $scope.wavesurferResults.length;
+
+    angular.forEach($scope.wavesurferResults, function(result, index){
+      if ( index == 0 ) {
+        var wave = $compile('<wave recording="' + $scope.wavesurferResults[index].recording + '" result-id="' + $scope.wavesurferResults[index].id + '" primary="' + 1 + '""></wave>')($scope);
+        angular.element('#playwave' + $scope.wavesurferResults[index].id).append(wave);
+        console.log('got here');
+      }
+      else {
+        var wave = $compile('<wave recording="' + $scope.wavesurferResults[index].recording + '" result-id="' + $scope.wavesurferResults[index].id + '"></wave>')($scope);
+        angular.element('#playwave' + $scope.wavesurferResults[index].id).append(wave);
+      }
     });
+
   });
 
   /*  short circuit $location change so we can update the browser URL without refreshing the view template   */

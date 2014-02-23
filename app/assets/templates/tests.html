@@ -151,12 +151,14 @@
           </div>
         </td>
         <td>
-            <button id="show-results" class="btn btn-success" ng-click="copySearchTests(test.phone_number); showHide(test.id)" ng-show="!showResults">
+
+          <!-- ng-class="{'btn btn-success': test.status == 0, 'btn btn-danger': test.status == 1}" -->
+            <button id="show-results"  ng-class="{'btn btn-success': test.status == 0, 'btn btn-danger': test.status > 0}" ng-click="copySearchTests(test.phone_number); showHide(test.id)" ng-show="!showResults">
               results
               <span class="glyphicon glyphicon-chevron-right pull-right">
             </button>
 
-            <button id="show-results" class="btn btn-success" ng-click="copySearchTests()" ng-show="showResults">
+            <button id="show-results" ng-class="{'btn btn-success': test.status == 0, 'btn btn-danger': test.status > 1}" ng-click="copySearchTests()" ng-show="showResults">
               results
               <span class="glyphicon glyphicon-chevron-down pull-right">
             </button>
@@ -377,13 +379,15 @@
   </tab>
   </tabset>
   </div>
-
-<!--     <div class="well" style="position: relative;">
-  <div id="wavesurfer{{ testData.results.last.id }}">
-    <wave-surfer recording="{{ testData.result.last.recording }}" resultId="{{ testData.result.last.id }}"></wave-surfer>
-  </div>
-  </div> -->
 </div>
+</div>
+
+<div transition="fade" do-it="resultsFaded">
+  <div class="row" style="min-height: 100px;">
+    <div class="col-md-11" style="margin-left: 50px;">
+      <div id="wave"></div>
+    </div>
+  </div>
 </div>
 
 </div>
@@ -420,21 +424,8 @@
     <tbody>
       <tr ng-repeat="result in filteredResults |filter:searchResults |orderBy:'updated_at':true |startFrom:(currentPage-1)*pageSize |limitTo:pageSize" on-finish-render>
 
-<!-- <p><i class="fa fa-camera-retro fa-lg"></i> fa-camera-retro</p>
-<p><i class="fa fa-camera-retro fa-2x"></i> fa-camera-retro</p>
-<p><i class="fa fa-camera-retro fa-3x"></i> fa-camera-retro</p>
-<p><i class="fa fa-camera-retro fa-4x"></i> fa-camera-retro</p>
-<p><i class="fa fa-camera-retro fa-5x"></i> fa-camera-retro</p> -->
-
         <td>
-  <!--         ng-class="{'glyphicon-chevron-down': !isCollapsed, 'glyphicon-chevron-right': isCollapsed}"
-            <td style="width: 14%;" class="numbers"><span class="fui-check-inverted success" tooltip="Successes"></td>
-        <td style="width: 14%;" class="numbers"><span class="fui-cross-inverted danger" tooltip="Failures"></td> -->
-          <!-- <p style="white-space: pre;"><small>{{ result.log }}</small></p> -->
-          <i class="fui fa-check-circle fa-2x success"></i>
-          <div ng-class="{'fa fa-check-circle fa-2x success': result.status == 0, 'fa fa-times-circle fa-2x danger': result.status == 1}"></div>
-          <div id="wavesurfer{{ result.id }}" class="wave-background"></div>
-
+          <div id="playwave{{ result.id }}" ng-class="{'success': result.status == 0, 'danger': result.status == 1}"></div>
         </td>
 
         <td> 

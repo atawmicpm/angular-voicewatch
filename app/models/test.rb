@@ -17,6 +17,9 @@ class Test < ActiveRecord::Base
     disconnects = 0
     failures    = 0
     successes   = 0
+    s_percentage = 0
+    f_percentage = 0
+    d_percentage = 0
 
     tenant.tests.each {|test| 
       test.results.where(updated_at: hours.hour.ago..DateTime.now).each {|result| 
@@ -28,9 +31,9 @@ class Test < ActiveRecord::Base
     
     total = successes + failures + disconnects
 
-    s_percentage = (successes.to_f / total * 100).to_i
-    f_percentage = (failures.to_f / total * 100).to_i
-    d_percentage = (disconnects.to_f / total * 100).to_i
+    s_percentage = (successes.to_f / total * 100).to_i unless successes == 0
+    f_percentage = (failures.to_f / total * 100).to_i unless failures == 0
+    d_percentage = (disconnects.to_f / total * 100).to_i unless disconnects == 0
 
     [successes, failures, disconnects, s_percentage, f_percentage, d_percentage]
   end
@@ -40,6 +43,9 @@ class Test < ActiveRecord::Base
     disconnects = 0
     failures    = 0
     successes   = 0
+    s_percentage = 0
+    f_percentage = 0
+    d_percentage = 0
 
     mcp.tests.each {|test| 
       test.results.where(updated_at: hours.hour.ago..DateTime.now).each {|result| 
@@ -51,9 +57,9 @@ class Test < ActiveRecord::Base
     
     total = successes + failures + disconnects
 
-    s_percentage = (successes.to_f / total * 100).to_i
-    f_percentage = (failures.to_f / total * 100).to_i
-    d_percentage = (disconnects.to_f / total * 100).to_i
+    s_percentage = (successes.to_f / total * 100).to_i unless successes == 0
+    f_percentage = (failures.to_f / total * 100).to_i unless failures == 0
+    d_percentage = (disconnects.to_f / total * 100).to_i unless disconnects == 0
 
     [successes, failures, disconnects, s_percentage, f_percentage, d_percentage]
   end
