@@ -312,7 +312,7 @@
     </table>
   </tab>
 
-  <tab heading="Tenant" class="pointer">
+  <tab heading="Tenant" class="pointer" active>
   <table class="table table-striped">
 
     <thead>
@@ -383,9 +383,14 @@
 </div>
 
 <div transition="fade" do-it="resultsFaded">
+
   <div class="row" style="min-height: 100px;">
+      <div transition="fade" do-it="waveFaded">
     <div class="col-md-11" style="margin-left: 50px;">
-      <div id="wave"></div>
+
+        <div id="wave"></div>
+      
+      </div>
     </div>
   </div>
 </div>
@@ -394,12 +399,22 @@
 <div transition="fade" do-it="resultsFaded">
 <div class="row">
 <div class="well">
-  <div class="form-inline pull-left">
-    <input class="form-control" type="text" ng-model="searchResults" placeholder="Search results..." />
+  <!-- <div class="form-inline pull-left"> -->
+<!--     <input class="form-control" type="text" ng-model="searchResults" placeholder="Search results..." />
     <button class="btn btn-info" ng-click="copySearchResults()">
       clear
     </button>
-  </div>
+  </div> -->
+
+<!--   <label class="checkbox pull-left" for="successes">
+    <span class="icons"><span class="first-icon fui-checkbox-unchecked"></span>
+    <span class="second-icon fui-checkbox-checked"></span>
+
+  </span>
+  <input type="checkbox" value="" id="checkbox1" data-toggle="checkbox">
+    Unchecked
+  </label> -->
+
   <div class="pagination pull-right pagination-margin">
     <pagination 
       total-items="totalItems" 
@@ -423,13 +438,40 @@
 
     <tbody>
       <tr ng-repeat="result in filteredResults |filter:searchResults |orderBy:'updated_at':true |startFrom:(currentPage-1)*pageSize |limitTo:pageSize" on-finish-render>
-
+       <!--  <td style="width: 100x;">
+           <i class="fa fa-bars fa-2x pull-left" style="margin-right: 20px;" tooltip="View full log"></i>
+         </td>
+        
+        -->
         <td>
-          <div id="playwave{{ result.id }}" ng-class="{'success': result.status == 0, 'danger': result.status == 1}"></div>
+          <div id="playwave{{ result.id }}" ng-class="{'success pull-left': result.status == 0, 'danger pull-left': result.status == 1}"></div>
+        </td>
+        
+
+
+
+        <td style="width: 60%;">
+          {{ result.snippet }} 
+          
+          <i ng-class="{'fa fa-chevron-right': result.show == false, 'fa fa-chevron-down': result.show == true }" 
+              style="margin-left: 10px;" 
+              tooltip="View full log" 
+              ng-click="result.show = !result.show"
+          ></i>
+          
+          <div collapse="!result.show">
+            <pre>{{ result.log }}</pre>
+          </div>
         </td>
 
-        <td> 
-          {{ result.time_ago }} ago
+
+
+        <td>
+    
+          <!-- <i class="fa fa-envelope fa-2x" tooltip="Email test result"></i> -->
+        </td>
+        <td tooltip="{{ result.timestamp }}"> 
+          <span class="pull-left">{{ result.time_ago }} ago</span>
         </td>
 
       </tr>

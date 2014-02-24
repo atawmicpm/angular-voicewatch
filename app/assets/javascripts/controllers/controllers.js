@@ -1,6 +1,6 @@
 /* Tests Controller */
-vwApp.controller('TestsController', ['$scope', '$timeout', '$compile', '$filter', '$location', '$routeParams', '$route', 'sharedTests', 'ezConfirm', 'appSettings',
-  function($scope, $timeout, $compile, $filter, $location, $routeParams, $route, sharedTests, ezConfirm, appSettings){
+vwApp.controller('TestsController', ['$scope', '$timeout', '$compile', '$filter', '$location', '$routeParams', '$route', '$parse', 'sharedTests', 'ezConfirm', 'appSettings',
+  function($scope, $timeout, $compile, $filter, $location, $routeParams, $route, $parse, sharedTests, ezConfirm, appSettings){
 
   $scope.currentPage = 1;   // set initial page for pagination
   $scope.pageSize = 10;     // set number of test results per page
@@ -14,6 +14,7 @@ vwApp.controller('TestsController', ['$scope', '$timeout', '$compile', '$filter'
   $scope.resultsFaded = true;     // make sure the test results view is hidden 
   $scope.testData = {};           // create initial object for create test form
   $scope.settingsData = {};        // create initial object for settings data form
+  $scope.waveFaded = true;
 
   /* grab application settings from REST API and display */
   appSettings.get().then(function(settings){
@@ -49,9 +50,13 @@ vwApp.controller('TestsController', ['$scope', '$timeout', '$compile', '$filter'
     sharedTests.getTests().then(function(tests){
       $scope.tests = tests;
     });
+  }, 30000);
+
+  /*  grab new results every 5 minutes */
+  setInterval(function(){
     var id = $location.path().match(/\d+/g);
     sharedTests.getTest(id);
-  }, 30000);
+  }, 300000);
 
   /*  popup delete confirmation box, if yes then run deleteTest function from the sharedTests factory */
   $scope.delete = function(id) {
@@ -102,7 +107,6 @@ vwApp.controller('TestsController', ['$scope', '$timeout', '$compile', '$filter'
       $scope.spinner = false;
       $scope.resultsFaded = true;
       $scope.showResults = false;
-
     }
   };
 
@@ -134,6 +138,9 @@ vwApp.controller('TestsController', ['$scope', '$timeout', '$compile', '$filter'
 
     var start = ($scope.currentPage -1) * 10;
     var end = start + 10;
+    $scope.current_recording;
+
+
 
     $scope.wavesurferResults = [];    
     $scope.wavesurferResults = $scope.filteredResults.slice(start,end);
@@ -143,12 +150,14 @@ vwApp.controller('TestsController', ['$scope', '$timeout', '$compile', '$filter'
       if ( index == 0 ) {
         var wave = $compile('<wave recording="' + $scope.wavesurferResults[index].recording + '" result-id="' + $scope.wavesurferResults[index].id + '" primary="' + 1 + '""></wave>')($scope);
         angular.element('#playwave' + $scope.wavesurferResults[index].id).append(wave);
-        console.log('got here');
       }
       else {
         var wave = $compile('<wave recording="' + $scope.wavesurferResults[index].recording + '" result-id="' + $scope.wavesurferResults[index].id + '"></wave>')($scope);
         angular.element('#playwave' + $scope.wavesurferResults[index].id).append(wave);
       }
+
+      result.show = false;
+
     });
 
   });

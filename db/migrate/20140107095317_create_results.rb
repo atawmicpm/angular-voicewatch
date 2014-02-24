@@ -4,6 +4,7 @@ class CreateResults < ActiveRecord::Migration
       t.references :test
       t.string :status
       t.text :log
+      t.text :snippet
       t.string :recording
 
       t.timestamps

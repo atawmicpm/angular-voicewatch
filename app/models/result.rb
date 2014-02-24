@@ -46,11 +46,20 @@ class Result < ActiveRecord::Base
     mcp_ip = self.test.mcp.ip_address
     mcp_port = 1433
     url = "http://#{mcp_ip}:#{mcp_port}/"
+    # snippet = ''
 
     # Read result log from server
     log = open(url + "#{self.id}.log").read.gsub!(/\d{2}-\d{2}-\d{2}.* : /, '')
     self.log = log
 
+    if log =~ /(Error.*)\n/
+      self.snippet = $1
+    elsif log =~ /(Prompt Duration.*\nVWRA.*)/
+     self.snippet = $1.to_s.gsub!(/\n/, '')
+    else
+      self.snippet = "Unknown snippet, please review log"
+    end
+    
     # Determine the session ID from the log
     /Session ID: (.*) \n/.match(log)
     session_id = $1

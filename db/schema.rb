@@ -16,13 +16,6 @@ ActiveRecord::Schema.define(version: 20140218231258) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "configurations", force: true do |t|
-    t.string   "smtp"
-    t.string   "email"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
   create_table "mcps", force: true do |t|
     t.string   "ip_address"
     t.datetime "created_at"
@@ -33,6 +26,7 @@ ActiveRecord::Schema.define(version: 20140218231258) do
     t.integer  "test_id"
     t.string   "status"
     t.text     "log"
+    t.text     "snippet"
     t.string   "recording"
     t.datetime "created_at"
     t.datetime "updated_at"

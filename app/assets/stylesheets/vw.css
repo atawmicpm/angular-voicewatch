@@ -94,6 +94,9 @@ body {
   background-position: -624px -48px;  // original position * 2
 }
 
+button {
+  height: 40px;
+}
 
 .badge-danger {
   background-color: #d9534f;

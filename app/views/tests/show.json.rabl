@@ -1,6 +1,6 @@
 object @test
 
-attributes :id, :phone_number, :frequency, :status, :created_at
+attributes :id, :phone_number, :status, :created_at
 
 node do |test|
   {
@@ -30,5 +30,11 @@ child :mcp do
 end
 
 child :results do
-  attributes :id, :status, :log, :recording, :updated_at, :time_ago
+  attributes :id, :status, :log, :snippet, :recording, :updated_at, :time_ago
+
+  node do |result|
+    {
+      :timestamp  => result.updated_at.to_s
+    }
+  end
 end

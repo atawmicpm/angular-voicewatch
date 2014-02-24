@@ -21,5 +21,5 @@ child :mcp do
 end
 
 child :results do
-  attributes :id, :status, :log, :recording
+  attributes :id, :status, :log, :snippet, :recording
 end

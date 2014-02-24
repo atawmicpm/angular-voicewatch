@@ -3,14 +3,14 @@ vwApp.directive('wave', function ($compile) {
   return {
     restrict: 'E',
     template: '<i class="fa fa-caret-square-o-right fa-2x"></i>',
-
+    // controller: 'TestsController',
+    
     link:function(scope, element, attrs) {
       
       var recording = attrs.recording;
       var resultId = attrs.resultId;
       var primary = attrs.primary;
       var wavesurfer = Object.create(WaveSurfer);
-
 
       if (primary == 1) {
         console.log('got a primary!');
@@ -22,25 +22,38 @@ vwApp.directive('wave', function ($compile) {
           progressColor: '#3498db',
           height: 80,
         });
-
+        scope.waveFaded = false;
         wavesurfer.load(recording);
+        scope.current_recording = recording;
         // console.log(wavesurfer.load(recording));
       };
 
       element.bind('mouseenter', function() {
+        if (recording !== scope.current_recording) {
+          scope.waveFaded = true;
+          console.log(scope.waveFaded);
+          angular.element('#wave').empty();
+        
+          wavesurfer.init({
+            container: document.querySelector('#wave'),
+            waveColor: '#666',
+            progressColor: '#3498db',
+            height: 80,
+          });
 
-        angular.element('#wave').empty();
-      
-        wavesurfer.init({
-          container: document.querySelector('#wave'),
-          waveColor: '#666',
-          progressColor: '#3498db',
-          height: 80,
-        });
-
-        wavesurfer.load(recording);
-
+          scope.current_recording = recording;
+          wavesurfer.load(recording);
+          scope.waveFaded = false;
+        };
       });
+
+      // element.bind("keydown keypress", function (event) {
+      //       scope.$apply(function (){
+      //          wavesurfer.playPause();
+      //       });
+           
+      //       event.preventDefault();
+      // });
 
       element.bind('click', function() {
         wavesurfer.playPause();

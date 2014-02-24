@@ -7,10 +7,6 @@ class Test < ActiveRecord::Base
 
   attr_accessible :phone_number, :status, :tenant_id, :mcp_id
 
-  def print_frequency
-    "every #{frequency} minutes"
-  end
-
   def tenant_stats hours
     tenant      = self.tenant
     mcp         = self.mcp
@@ -23,9 +19,12 @@ class Test < ActiveRecord::Base
 
     tenant.tests.each {|test| 
       test.results.where(updated_at: hours.hour.ago..DateTime.now).each {|result| 
-        disconnects += 1 unless result.status
-        failures    += 1 if result.status.to_i == 1
-        successes   += 1 if result.status.to_i == 0  
+        if result.status
+          failures    += 1 if result.status.to_i == 1
+          successes   += 1 if result.status.to_i == 0  
+        else
+          disconnects += 1
+        end
       }
     }
     
@@ -48,10 +47,14 @@ class Test < ActiveRecord::Base
     d_percentage = 0
 
     mcp.tests.each {|test| 
-      test.results.where(updated_at: hours.hour.ago..DateTime.now).each {|result| 
-        disconnects += 1 unless result.status
-        failures    += 1 if result.status.to_i == 1
-        successes   += 1 if result.status.to_i == 0  
+      test.results.where(updated_at: hours.hour.ago..DateTime.now).each {|result|
+        if result.status
+          failures    += 1 if result.status.to_i == 1
+          successes   += 1 if result.status.to_i == 0  
+        else
+          disconnects += 1
+        end
+
       }
     }
     
@@ -65,27 +68,27 @@ class Test < ActiveRecord::Base
   end
 
   def stats hours
-    latest  = self.results.where(updated_at: hours.hour.ago..DateTime.now)
-    total   = 0
-    errors  = 0
-    unless latest.empty?
-      latest.each do |result|
+    results       = self.results.where(updated_at: hours.hour.ago..DateTime.now)
+    failures      = 0
+    successes     = 0
+    s_percentage  = 0
+    f_percentage  = 0
+
+    unless results.empty?
+      results.each {|result|
         if result.status
-          total += 1
-          errors += result.status.to_i
+          failures += 1 if result.status.to_i == 1
+          successes += 1 if result.status.to_i == 0
         end
-      end
-      if errors > 0
-        error_percentage = (errors.to_f / total * 100).to_i
-      else
-        error_percentage = 0
-      end
-      success_percentage = 100 - error_percentage
-      successes = total - errors
-      return [success_percentage, error_percentage, successes, errors]
-    else
-      return [0, 100, 0, 1]
+      }
+
+      total = successes + failures
+
+      s_percentage = (successes.to_f / total * 100).to_i unless successes == 0
+      f_percentage = (failures.to_f / total * 100).to_i unless failures == 0
     end
+
+    [s_percentage, f_percentage, successes, failures]
   end
   
   def run
