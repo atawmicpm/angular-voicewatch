@@ -148,11 +148,11 @@ vwApp.controller('TestsController', ['$scope', '$timeout', '$compile', '$filter'
 
     angular.forEach($scope.wavesurferResults, function(result, index){
       if ( index == 0 ) {
-        var wave = $compile('<wave recording="' + $scope.wavesurferResults[index].recording + '" result-id="' + $scope.wavesurferResults[index].id + '" primary="' + 1 + '""></wave>')($scope);
+        var wave = $compile('<wave recording="' + $scope.wavesurferResults[index + 1].recording + '" result-id="' + $scope.wavesurferResults[index].id + '" primary="' + 1 + '""></wave>')($scope);
         angular.element('#playwave' + $scope.wavesurferResults[index].id).append(wave);
       }
       else {
-        var wave = $compile('<wave recording="' + $scope.wavesurferResults[index].recording + '" result-id="' + $scope.wavesurferResults[index].id + '"></wave>')($scope);
+        var wave = $compile('<wave recording="' + $scope.wavesurferResults[index + 1].recording + '" result-id="' + $scope.wavesurferResults[index].id + '"></wave>')($scope);
         angular.element('#playwave' + $scope.wavesurferResults[index].id).append(wave);
       }
 

@@ -59,7 +59,7 @@ class Result < ActiveRecord::Base
     else
       self.snippet = "Unknown snippet, please review log"
     end
-    
+
     # Determine the session ID from the log
     /Session ID: (.*) \n/.match(log)
     session_id = $1
@@ -80,6 +80,7 @@ class Result < ActiveRecord::Base
     /(callrec.#{session_id}.*.wav)"/.match(listing)
     wav = $1
 
+    #sounds = "/home/voicealert/app/public/sounds"
     sounds = "/Users/pmispagel/Desktop/dev/voicewatch/app/assets/sounds"
     # Save the wav file locally
     File.open("#{sounds}/#{self.id}.wav", "wb") do |saved_wav|
