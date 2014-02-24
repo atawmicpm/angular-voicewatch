@@ -451,13 +451,16 @@
 
 
         <td style="width: 60%;">
-          {{ result.snippet }} 
+
           
-          <i ng-class="{'fa fa-chevron-right': result.show == false, 'fa fa-chevron-down': result.show == true }" 
+          <div ng-click="result.show = !result.show" class="pointer">
+          {{ result.snippet }} 
+            <i ng-class="{'fa fa-chevron-right': result.show == false, 'fa fa-chevron-down': result.show == true }" 
               style="margin-left: 10px;" 
               tooltip="View full log" 
-              ng-click="result.show = !result.show"
+              
           ></i>
+        </div>
           
           <div collapse="!result.show">
             <pre>{{ result.log }}</pre>
