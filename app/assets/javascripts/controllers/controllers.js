@@ -67,6 +67,12 @@ vwApp.controller('TestsController', ['$scope', '$timeout', '$compile', '$filter'
     });
   };
 
+  $scope.clearCreateTest = function() {
+    $scope.testData.phone_number = '';
+    $scope.testData.tenant = '';
+    $scope.testData.mcp = ''; 
+  };
+
   /*  submit create test form data to sharedTests factory and clear the form fields */
   $scope.createTest = function() {
     if($scope.testForm.$valid) {
@@ -155,11 +161,31 @@ vwApp.controller('TestsController', ['$scope', '$timeout', '$compile', '$filter'
         var wave = $compile('<wave recording="' + $scope.wavesurferResults[index].recording + '" result-id="' + $scope.wavesurferResults[index].id + '"></wave>')($scope);
         angular.element('#playwave' + $scope.wavesurferResults[index].id).append(wave);
       }
-
+      result.playDisabled = false;
       result.show = false;
 
     });
 
+  });
+
+  $scope.$on('playing', function(e, recording) {
+    console.log(recording);
+    angular.forEach($scope.wavesurferResults, function(result, index){
+      if (recording !== result.recording) {
+        result.playDisabled = true;
+        $scope.playing = true;
+      }
+    });
+    $scope.$digest();
+  });
+
+  $scope.$on('finished', function(e, recording) {
+    console.log(recording);
+    angular.forEach($scope.wavesurferResults, function(result, index){
+      result.playDisabled = false;
+      $scope.playing = false;
+    });
+    $scope.$digest();
   });
 
   /*  short circuit $location change so we can update the browser URL without refreshing the view template   */

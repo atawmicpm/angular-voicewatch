@@ -2,15 +2,14 @@
 vwApp.directive('wave', function ($compile) {
   return {
     restrict: 'E',
-    template: '<i class="fa fa-caret-square-o-right fa-2x"></i>',
-    // controller: 'TestsController',
-    
-    link:function(scope, element, attrs) {
+    template: '<i ng-class="{\'success pull-left\': result.status == 0, \'danger pull-left\': result.status == 1}" class="fa fa-caret-square-o-right fa-2x pointer"></i>',
+
+    link:function($scope, $element, $attrs) {
       
-      var recording = attrs.recording;
-      var resultId = attrs.resultId;
-      var primary = attrs.primary;
-      var wavesurfer = Object.create(WaveSurfer);
+      var recording   = $attrs.recording;
+      var resultId    = $attrs.resultId;
+      var primary     = $attrs.primary;
+      var wavesurfer  = Object.create(WaveSurfer);
 
       if (primary == 1) {
         console.log('got a primary!');
@@ -22,16 +21,15 @@ vwApp.directive('wave', function ($compile) {
           progressColor: '#3498db',
           height: 80,
         });
-        scope.waveFaded = false;
+
+        $scope.waveFaded = false;
         wavesurfer.load(recording);
-        scope.current_recording = recording;
-        // console.log(wavesurfer.load(recording));
+        $scope.current_recording = recording;
       };
 
-      element.bind('mouseenter', function() {
-        if (recording !== scope.current_recording) {
-          scope.waveFaded = true;
-          console.log(scope.waveFaded);
+      $element.bind('mouseenter', function() {
+        if (recording !== $scope.current_recording) {
+          $scope.waveFaded = true;
           angular.element('#wave').empty();
         
           wavesurfer.init({
@@ -41,23 +39,27 @@ vwApp.directive('wave', function ($compile) {
             height: 80,
           });
 
-          scope.current_recording = recording;
+          $scope.current_recording = recording;
           wavesurfer.load(recording);
-          scope.waveFaded = false;
+          $scope.waveFaded = false;
         };
       });
 
-      // element.bind("keydown keypress", function (event) {
-      //       scope.$apply(function (){
-      //          wavesurfer.playPause();
-      //       });
-           
-      //       event.preventDefault();
-      // });
 
-      element.bind('click', function() {
-        wavesurfer.playPause();
+      $element.bind('click', function() {
+        $scope.$emit('finished', recording);  
+        wavesurfer.playPause();  
       });
+
+      wavesurfer.on('play', function() {
+        $scope.$emit('playing', recording);
+      });
+      
+      wavesurfer.on('finish', function(){
+        $scope.$emit('finished', recording);
+      });     
+
+
     }
   };
 });

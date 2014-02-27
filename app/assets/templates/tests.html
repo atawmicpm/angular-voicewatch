@@ -2,8 +2,7 @@
 
 <div class="row">
 <button id="create-test-button" class="btn btn-default" ng-click="isCollapsed = !isCollapsed">
-    Create Test
-    <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': !isCollapsed, 'glyphicon-chevron-right': isCollapsed}"></i>
+    Create Test<i ng-class="{'glyphicon glyphicon-chevron-down pull-right': !isCollapsed, 'glyphicon glyphicon-chevron-right pull-right': isCollapsed}" style="display: inline;"></i>
 </button>
 
 <button id="create-test-button" class="btn btn-default" ng-click="configCollapsed = !configCollapsed">
@@ -85,7 +84,11 @@
         ng-disabled="testForm.$invalid"
       >
         Create Test
-      </button>        
+      </button>      
+
+    <button class="btn btn-info" ng-click="clearCreateTest()">
+      clear
+    </button>  
 
     </form>
   </div> 
@@ -385,10 +388,11 @@
 <div transition="fade" do-it="resultsFaded">
 
   <div class="row" style="min-height: 100px;">
-      <div transition="fade" do-it="waveFaded">
-    <div class="col-md-11" style="margin-left: 50px;">
+    <div transition="fade" do-it="waveFaded">
+      <div class="col-md-11" style="margin-left: 50px;">
 
         <div id="wave"></div>
+        <div id="wave-timeline"></div>
       
       </div>
     </div>
@@ -444,24 +448,21 @@
         
         -->
         <td>
-          <div id="playwave{{ result.id }}" ng-class="{'success pull-left': result.status == 0, 'danger pull-left': result.status == 1}"></div>
+          <div class="btn btn-custom" ng-disabled="result.playDisabled"><div id="playwave{{ result.id }}" ng-class="{'success pull-left': result.status == 0, 'danger pull-left': result.status == 1}"></div></div>
+          <!-- <div id="playwave{{ result.id }}"></div> -->
         </td>
         
 
 
 
         <td style="width: 60%;">
-
-          
           <div ng-click="result.show = !result.show" class="pointer">
           {{ result.snippet }} 
             <i ng-class="{'fa fa-chevron-right': result.show == false, 'fa fa-chevron-down': result.show == true }" 
               style="margin-left: 10px;" 
-              tooltip="View full log" 
-              
-          ></i>
-        </div>
-          
+              tooltip="View full log"          
+            ></i>
+          </div>
           <div collapse="!result.show">
             <pre>{{ result.log }}</pre>
           </div>

@@ -15,3 +15,4 @@
 //= require vendor/transition
 //= require vendor/transitions
 //= require vendor/wavesurfer.min
+//= require vendor/wavesurfer.timeline
