@@ -46,13 +46,20 @@ fieldset[disabled] .btn-custom.active {
   background-color: transparent;
 }
 
+.ff-b {
+  white-space: normal;
+}
+
+.ff-i {
+  line-height: 100%;
+}
 
 .pointer {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 .dashboard-panel-6 {
-   width: 49%;
+  width: 49%;
 }
 
 .well-height {
@@ -141,10 +148,6 @@ body {
   height: 50px; // 14px * 2
   background-size: 938px 318px;  // original dimensions * 2
   background-position: -624px -48px;  // original position * 2
-}
-
-button {
-  height: 40px;
 }
 
 .badge-danger {

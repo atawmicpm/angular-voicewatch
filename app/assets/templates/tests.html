@@ -1,13 +1,12 @@
 
 
 <div class="row">
-<button id="create-test-button" class="btn btn-default" ng-click="isCollapsed = !isCollapsed">
-    Create Test<i ng-class="{'glyphicon glyphicon-chevron-down pull-right': !isCollapsed, 'glyphicon glyphicon-chevron-right pull-right': isCollapsed}" style="display: inline;"></i>
+<button id="create-test-button" class="btn btn-default ff-b" ng-click="isCollapsed = !isCollapsed">
+    Create Test<i ng-class="{'glyphicon glyphicon-chevron-down ff-i pull-right': !isCollapsed, 'glyphicon glyphicon-chevron-right ff-i pull-right': isCollapsed}"></i>
 </button>
 
-<button id="create-test-button" class="btn btn-default" ng-click="configCollapsed = !configCollapsed">
-    Configure 
-    <span class="pull-right fui-gear"></span>
+<button id="create-test-button" class="btn btn-default ff-b" ng-click="configCollapsed = !configCollapsed">
+    Configure<i class="fa fa-gear fa-lg ff-i pull-right"></i>
 </button>
 
 <hr>
@@ -156,14 +155,14 @@
         <td>
 
           <!-- ng-class="{'btn btn-success': test.status == 0, 'btn btn-danger': test.status == 1}" -->
-            <button id="show-results"  ng-class="{'btn btn-success': test.status == 0, 'btn btn-danger': test.status > 0}" ng-click="copySearchTests(test.phone_number); showHide(test.id)" ng-show="!showResults">
+            <button id="show-results"  ng-class="{'btn btn-success ff-b': test.status == 0, 'btn btn-danger ff-b': test.status > 0}" ng-click="copySearchTests(test.phone_number); showHide(test.id)" ng-show="!showResults">
               results
-              <span class="glyphicon glyphicon-chevron-right pull-right">
+              <span class="glyphicon glyphicon-chevron-right ff-i pull-right">
             </button>
 
-            <button id="show-results" ng-class="{'btn btn-success': test.status == 0, 'btn btn-danger': test.status > 1}" ng-click="copySearchTests()" ng-show="showResults">
+            <button id="show-results" ng-class="{'btn btn-success ff-b': test.status == 0, 'btn btn-danger ff-b': test.status > 1}" ng-click="copySearchTests()" ng-show="showResults">
               results
-              <span class="glyphicon glyphicon-chevron-down pull-right">
+              <span class="glyphicon glyphicon-chevron-down ff-i pull-right">
             </button>
         </td>
 
