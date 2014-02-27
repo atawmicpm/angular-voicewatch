@@ -4,10 +4,14 @@
   box-shadow:none;
 }
 
+.play-button {
+  line-height: 50%;
+}
 .btn-custom {
   color: transparent;
   background-color: transparent;
   border-color: transparent;
+  height: 30px;
 }
 .btn-custom:hover,
 .btn-custom:focus,
@@ -127,8 +131,25 @@ body {
   color: #2ecc71;
 }
 
+.success-play {
+  color: #2ecc71;
+}
+
+.success-play:hover {
+  color: black;
+  /*color: #15F273;*/
+}
+
 .danger {
   color: #e74c3c;
+}
+
+.danger-play {
+  color: #e74c3c;
+}
+
+.danger-play:hover {
+
 }
 
 .warning {

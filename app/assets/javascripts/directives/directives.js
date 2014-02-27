@@ -2,7 +2,7 @@
 vwApp.directive('wave', function ($compile) {
   return {
     restrict: 'E',
-    template: '<i ng-class="{\'success pull-left\': result.status == 0, \'danger pull-left\': result.status == 1}" class="fa fa-caret-square-o-right fa-2x pointer"></i>',
+    template: '<i ng-class="{\'success-play pull-left\': result.status == 0, \'danger-play pull-left\': result.status == 1}" class="fa fa-caret-square-o-right fa-2x pointer play-button"></i>',
 
     link:function($scope, $element, $attrs) {
       
@@ -28,6 +28,7 @@ vwApp.directive('wave', function ($compile) {
       };
 
       $element.bind('mouseenter', function() {
+        $element.addClass('play-hover');
         if (recording !== $scope.current_recording) {
           $scope.waveFaded = true;
           angular.element('#wave').empty();
@@ -39,12 +40,16 @@ vwApp.directive('wave', function ($compile) {
             height: 80,
           });
 
+
           $scope.current_recording = recording;
           wavesurfer.load(recording);
           $scope.waveFaded = false;
         };
       });
 
+      $element.bind('mouseleave', function() {
+        $element.removeClass('play-hover');
+      });
 
       $element.bind('click', function() {
         $scope.$emit('finished', recording);  

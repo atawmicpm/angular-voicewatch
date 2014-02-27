@@ -26,7 +26,7 @@ class Result < ActiveRecord::Base
       mail = Mail.new do
         from     'voicealert@genesyscloud.com'
         to       setting.email
-        subject  "VoiceAlert error - #{test.phone_number} failed 2+ of 3 last tests"
+        subject  "VoiceAlert! - #{test.tenant.name} - #{test.phone_number}"
         body     "error!"
         add_file :filename => "#{mp3}", :content => File.read("#{path}/#{mp3}")
       end

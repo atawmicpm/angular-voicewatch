@@ -21,6 +21,8 @@ vwApp.controller('TestsController', ['$scope', '$timeout', '$compile', '$filter'
     $scope.settingsData = settings;
   });
 
+  $scope.paginationDisabled = true;
+  
   $scope.saveSettings = function(){
       $params = {
         "smtp":   $scope.settingsData.smtp,
@@ -173,7 +175,7 @@ vwApp.controller('TestsController', ['$scope', '$timeout', '$compile', '$filter'
     angular.forEach($scope.wavesurferResults, function(result, index){
       if (recording !== result.recording) {
         result.playDisabled = true;
-        $scope.playing = true;
+        // $scope.playing = true;
       }
     });
     $scope.$digest();
@@ -183,7 +185,7 @@ vwApp.controller('TestsController', ['$scope', '$timeout', '$compile', '$filter'
     console.log(recording);
     angular.forEach($scope.wavesurferResults, function(result, index){
       result.playDisabled = false;
-      $scope.playing = false;
+      // $scope.playing = false;
     });
     $scope.$digest();
   });
