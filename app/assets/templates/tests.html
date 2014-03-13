@@ -1,250 +1,458 @@
-
-
 <div class="row">
-<button id="create-test-button" class="btn btn-default ff-b" ng-click="isCollapsed = !isCollapsed">
-    Create Test<i ng-class="{'glyphicon glyphicon-chevron-down ff-i pull-right': !isCollapsed, 'glyphicon glyphicon-chevron-right ff-i pull-right': isCollapsed}"></i>
-</button>
-
-<button id="create-test-button" class="btn btn-default ff-b" ng-click="configCollapsed = !configCollapsed">
-    Configure<i class="fa fa-gear fa-lg ff-i pull-right"></i>
-</button>
-
-<hr>
-</div>
-
-<div class="row">
-<div collapse="configCollapsed">
-  <div class="well well-lg">
-    <form name="settingsForm" class="form-inline">
-
-      <input class="form-control" type="text" name="smtp" ng-model="settingsData.smtp" placeholder="SMTP Server" />
-
-      <input class="form-control" type="text" name="tenant" ng-model="settingsData.email" placeholder="Email addresses" />
-
-
-      <button class="btn btn-success" ng-click="saveSettings(settingsData)">
-        Save Settings
-      </button>        
-
-    </form>
-  </div> 
-</div>
-</div>
-
-<div class="row">
-<div collapse="isCollapsed">
-  <div class="well well-lg">
-    <form name="testForm" class="form-inline" ng-submit="createTest()" novalidate>
-
-      <input 
-        ng-model="testData.phone_number" 
-        ng-pattern="/^\+\d+$/"
-        ng-minlength="12"
-        ng-maxlenght="15"
-        class="form-control" 
-        type="text" 
-        name="phone_number" 
-        placeholder="Phone Number" 
-        required
-        tooltip="Phone number must start with + sign and be at least 11 digits"  
-        tooltip-trigger="focus" 
-        tooltip-placement="top"
-      />
-
-      <input 
-        ng-model="testData.tenant" 
-        ng-minlength="2"
-        class="form-control" 
-        type="text" 
-        name="tenant" 
-        placeholder="Tenant" 
-        required
-        typeahead="tenant for tenant in tenants |filter:$viewValue |limitTo:8"
-        typeahead-editable="true"
-      />
-
-      <input 
-        ng-model="testData.mcp" 
-        ng-pattern="/^.*\..*$/"
-        ng-minlenght="6"
-        class="form-control" 
-        type="text" 
-        name="mcp"
-        placeholder="MCP" 
-        required
-        tooltip="FQDN or IP address"
-        tooltip-trigger="focus"
-        tooltip-placement="top"
-      />
-
-      <button 
-        class="btn btn-success" 
-        type="submit" 
-        ng-disabled="testForm.$invalid"
-      >
-        Create Test
-      </button>      
-
-    <button class="btn btn-info" ng-click="clearCreateTest()">
-      clear
-    </button>  
-
-    </form>
-  </div> 
-</div>
-</div>
-
-<div class="row">
-<div class="well">
-<form class="form-inline">
-  <input class="form-control" type="text" ng-model="searchTests" placeholder="Search tests..." />
-  <button class="btn btn-info" ng-click="copySearchTests()">
-    clear
+  <button 
+    id="create-test-button" 
+    class="btn btn-default ff-b" 
+    ng-click="isCollapsed = !isCollapsed" 
+  >
+    Create Test
+    <i 
+      ng-class="{'glyphicon glyphicon-chevron-down ff-i pull-right': !isCollapsed, 'glyphicon glyphicon-chevron-right ff-i pull-right': isCollapsed}"
+    ></i>
   </button>
-</form>
 
-<br>
+  <button 
+    id="create-test-button" 
+    class="btn btn-default ff-b" 
+    ng-click="configCollapsed = !configCollapsed"
+  >
+    Configure
+    <i 
+      class="fa fa-gear fa-lg ff-i pull-right"
+    ></i>
+  </button>
 
-<div class="table-responsive">
-  <table class="table table-striped">
+  <hr>
+</div>
 
-    <thead>
-      <tr>
-        <td><center><b>Errors</b></center></td>
-        <td><b>Phone Number</b></td>
-        <td><b>Tenant</b></td>
-        <td><b>MCP</b></td>
-        <td><b><center>Health</center></b></td>
-      </tr>
-    </thead>
+<div class="row">
+  <div collapse="configCollapsed">
+    <div class="well well-lg">
+      <form name="settingsForm" class="form-inline">
 
-    <tbody>
-      <tr ng-repeat="test in tests |orderBy:'status':true |filter:searchTests">
+        <input 
+          class="form-control" 
+          type="text" 
+          name="smtp" 
+          ng-model="settingsData.smtp" 
+          placeholder="SMTP Server" 
+        />
+
+        <input 
+          class="form-control" 
+          type="text" 
+          name="tenant" 
+          ng-model="settingsData.email" 
+          placeholder="Email addresses" 
+        />
+
+        <button 
+          class="btn btn-success" 
+          ng-click="saveSettings(settingsData)"
+        >
+          Save Settings
+        </button>        
+
+      </form>
+    </div> 
+  </div>
+</div>
+
+
+<div class="row">
+  <div collapse="isCollapsed">
+    <div class="well well-lg">
+      <form 
+        name="testForm" 
+        class="form-inline" 
+        ng-submit="createTest()" 
+        novalidate
+      >
+        <input 
+          ng-model="testData.phone_number" 
+          ng-pattern="/^\+\d+$/"
+          ng-minlength="12"
+          ng-maxlenght="15"
+          class="form-control" 
+          type="text" 
+          name="phone_number" 
+          placeholder="Phone Number" 
+          required
+          tooltip="Phone number must start with + sign and be at least 11 digits"  
+          tooltip-trigger="focus" 
+          tooltip-placement="top"
+        />
+        <input 
+          ng-model="testData.tenant" 
+          ng-minlength="2"
+          class="form-control" 
+          type="text" 
+          name="tenant" 
+          placeholder="Tenant" 
+          required
+          typeahead="tenant for tenant in tenants |filter:$viewValue |limitTo:8"
+          typeahead-editable="true"
+        />
+
+        <input 
+          ng-model="testData.mcp" 
+          ng-pattern="/^.*\..*$/"
+          ng-minlenght="6"
+          class="form-control" 
+          type="text" 
+          name="mcp"
+          placeholder="MCP" 
+          required
+          tooltip="FQDN or IP address"
+          tooltip-trigger="focus"
+          tooltip-placement="top"
+        />
+
+        <button 
+          class="btn btn-success" 
+          type="submit" 
+          ng-disabled="testForm.$invalid"
+        >
+          Create Test
+        </button>      
+
+        <button 
+          class="btn btn-info" 
+          ng-click="clearCreateTest()"
+        >
+          clear
+        </button>  
+
+      </form>
+    </div> 
+  </div>
+</div>
+
+<div class="row">
+    <div class="well">
+      <form class="form-inline">
+      
+        <input 
+          class="form-control" 
+          type="text" 
+          ng-model="searchTests" 
+          placeholder="Search tests..." 
+        />
+
+        <button 
+          class="btn btn-info" 
+          ng-click="copySearchTests()"
+        >
+          clear
+        </button>
+      </form>
+
+      <br>
+
+      <div class="table-responsive">
+        <table class="table table-striped">
+
+          <thead>
+            <tr>
+              <td>
+                <center>
+                  <b>
+                    Errors
+                  </b>
+                </center>
+              </td>
+              <td>
+                <b>
+                  Phone Number
+                </b>
+              </td>
+              <td>
+                <b>
+                  Tenant
+                </b>
+              </td>
+              <td>
+                <b>
+                  MCP
+                </b>
+              </td>
+              <td>
+                <center>
+                  <b>
+                    Health
+                  </b>
+                </center>
+              </td>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr 
+              ng-repeat="test in tests |orderBy:'status':true |filter:searchTests"
+            >
+              <td>
+                <center>
+                  <span 
+                    class="badge" 
+                    ng-class="{'badge-danger': test.status > 0, 'badge-success': test.status == 0}"
+                  >
+                    {{ test.status }}
+                  </span>
+                </center>
+              </td>
         
+              <td 
+                class="pointer" 
+                ng-click="copySearchTests(test.phone_number, test.id)"
+              >
+                {{ test.phone_number }} 
+              </td>
+              
+              <td 
+                id="tenant-column" 
+                class="pointer" 
+                ng-click="copySearchTests(test.tenant.name)"
+              > 
+                {{ test.tenant.name }}
+              </td>
 
+              <td 
+                class="pointer" 
+                ng-click="copySearchTests(test.mcp.ip_address); resultsFaded = !resultsFaded"
+              >
+                {{ test.mcp.ip_address }}
+              </td>
 
-        <td>
-          <center>
-          <span class="badge" ng-class="{'badge-danger': test.status > 0, 'badge-success': test.status == 0}">
-            {{ test.status }}
-          </span>
-        </center>
-        </td>
+              <td>
+                <div 
+                  tooltip="PASS: {{ test.stats[0] }}%&nbsp;&nbsp;  
+                           FAIL: {{ test.stats[1] }}% last hour"
+                >
+                  <progress 
+                    class="progress-striped active" 
+                    max="100" 
+                    animated="true" 
+                    style="height: 15px;"
+                  >
+                    <bar 
+                      value="test.stats[0]" 
+                      type="success"
+                    ></bar>
+                    <bar 
+                      value="test.stats[1]" 
+                      type="danger"
+                    ></bar>
+                  </progress>
+                </div>
+              </td>
+
+              <td>
+                <button 
+                  id="show-results"  
+                  ng-class="{'btn btn-success ff-b': test.status == 0, 'btn btn-danger ff-b': test.status > 0}" 
+                  ng-click="copySearchTests(test.phone_number); showHide(test.id)" 
+                  ng-show="!showResults"
+                >
+                  results
+                  <span 
+                    class="glyphicon glyphicon-chevron-right ff-i pull-right"
+                  ></span>
+                </button>
+
+                <button 
+                  id="show-results" 
+                  ng-class="{'btn btn-success ff-b': test.status == 0, 'btn btn-danger ff-b': test.status > 1}" 
+                  ng-click="copySearchTests()" 
+                  ng-show="showResults"
+                >
+                  results
+                  <span 
+                    class="glyphicon glyphicon-chevron-down ff-i pull-right"
+                  ></span>
+                </button>
+              </td>
+
+              <td>
+                <button 
+                  class="btn btn-success btn-condensed" 
+                  ng-click="copyTest(test)"
+                >
+                  copy
+                </button>
         
+                <button 
+                  class="btn btn-danger" 
+                  ng-click="delete(test.id)"
+                >
+                  delete
+                </button>
+              </td>
+            </tr>
+          </tbody>
 
-        <td class="pointer" ng-click="copySearchTests(test.phone_number, test.id)">
-          {{ test.phone_number }} 
-        </td>
-        
-        <td id="tenant-column" class="pointer" ng-click="copySearchTests(test.tenant.name)"> 
-          {{ test.tenant.name }}
-        </td>
+        </table>
+      </div>
+    </div>
+</div>
 
-        <td class="pointer" ng-click="copySearchTests(test.mcp.ip_address); resultsFaded = !resultsFaded">
-          {{ test.mcp.ip_address }}
-        </td>
+<div 
+  ng-show="spinner"
+>
+  <center>
+    <img src="/assets/ajax-loader.gif">
+  </center>
+</div>
 
-        <td>
-          <div tooltip="PASS: {{ test.stats[0] }}%&nbsp;&nbsp;  FAIL: {{ test.stats[1] }}% last hour">
-           <progress class="progress-striped active" max="100" animated="true" style="height: 15px;">
-            <bar value="test.stats[0]" type="success"></bar>
-            <bar value="test.stats[1]" type="danger"></bar>
-           </progress>
+<div 
+  transition="fade" 
+  do-it="resultsFaded"
+>
+
+  <div 
+    id="stats-container" 
+    class="row"
+  >
+
+    <div 
+      class="dashboard-panel-6 pull-left"
+    >
+
+      <div 
+        class="well"
+      >
+
+        <small>
+          Test Health
+        </small>
+
+        <table class="table table-striped">
+
+          <thead>
+            <tr>
+              <td style="width: 23%;"></td>
+              <td style="width: 57%;"></td>
+              <td style="width: 10%;">
+                <span 
+                  class="fui-check-inverted success" 
+                  tooltip="Successes"
+                ></span>
+              </td>
+              <td style="width: 10%;">
+                <span 
+                  class="fui-cross-inverted danger" 
+                  tooltip="Failures"
+                ></td>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr>
+              <td>
+                1 Hour
+              </td>
+              <td>          
+                <div 
+                  tooltip="PASS: {{ testStats.stats[0] }}%&nbsp;&nbsp;  
+                           FAIL: {{ testStats.stats[1] }}%"
+                  >
+                  <progress 
+                    class="progress-striped active" 
+                    max="100" 
+                    animated="true" 
+                    style="height: 15px;">
+                      <bar 
+                        value="testStats.stats[0]" 
+                        type="success"
+                      ></bar>
+
+                      <bar 
+                        value="testStats.stats[1]" 
+                        type="danger"
+                      ></bar>
+                  </progress>
+                </div>
+              </td>
+              
+              <td> 
+                {{ testStats.stats[2] }}
+              </td>
+              
+              <td>
+                {{ testStats.stats[3] }}
+              </td>
+            </tr>
+
+            <tr>
+              <td>
+                24 Hours
+              </td>
+
+              <td>          
+                <div 
+                  tooltip="PASS: {{ testStats.stats24[0] }}%&nbsp;&nbsp;  
+                           FAIL: {{ testStats.stats24[1] }}%"
+                  >
+                  <progress 
+                    class="progress-striped active" 
+                    max="100" 
+                    animated="true" 
+                    style="height: 15px;"
+                    >
+                    <bar 
+                      value="testStats.stats24[0]" 
+                      type="success"
+                    ></bar>
+                    <bar 
+                      value="testStats.stats24[1]" 
+                      type="danger"
+                    ></bar>
+                  </progress>
+                </div>
+              </td>
+              <td>
+                {{ testStats.stats24[2] }}
+              </td>
+              <td>
+                {{ testStats.stats24[3] }}
+              </td>
+            </tr>
+
+            <tr>
+              <td>
+                7 Days
+              </td>
+              <td>         
+                <div 
+                  tooltip="PASS: {{ testStats.stats24x7[0] }}%&nbsp;&nbsp;  
+                  FAIL: {{ testStats.stats24x7[1] }}%"
+                  >
+                  <progress 
+                    class="progress-striped active" 
+                    max="100" 
+                    animated="true" 
+                    style="height: 15px;"
+                    >
+                    <bar 
+                      value="testStats.stats24x7[0]" 
+                      type="success"
+                      ></bar>
+                    <bar 
+                      value="testStats.stats24x7[1]" 
+                      type="danger"
+                      ></bar>
+                    </progress>
+                  </div>
+                </td>
+                
+                <td>
+                  {{ testStats.stats24x7[2] }}
+                </td>
+                <td>
+                  {{ testStats.stats24x7[3] }}
+                </td>
+              </tr>
+            </table>
           </div>
-        </td>
-        <td>
-
-          <!-- ng-class="{'btn btn-success': test.status == 0, 'btn btn-danger': test.status == 1}" -->
-            <button id="show-results"  ng-class="{'btn btn-success ff-b': test.status == 0, 'btn btn-danger ff-b': test.status > 0}" ng-click="copySearchTests(test.phone_number); showHide(test.id)" ng-show="!showResults">
-              results
-              <span class="glyphicon glyphicon-chevron-right ff-i pull-right">
-            </button>
-
-            <button id="show-results" ng-class="{'btn btn-success ff-b': test.status == 0, 'btn btn-danger ff-b': test.status > 1}" ng-click="copySearchTests()" ng-show="showResults">
-              results
-              <span class="glyphicon glyphicon-chevron-down ff-i pull-right">
-            </button>
-        </td>
-
-
-        <td>
-          <button class="btn btn-success btn-condensed" ng-click="copyTest(test)">
-            copy
-          </button>
-  
-            <button class="btn btn-danger" ng-click="delete(test.id)">delete</button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-</div>
-</div>
-</div>
-<div ng-show="spinner"><center><img src="/assets/ajax-loader.gif"></center></div>
-<div transition="fade" do-it="resultsFaded">
-
-<div id ="stats-container" class="row">
-
-<div class="dashboard-panel-6 pull-left">
-<div class="well">
-    <small>Test Health</small>
-
-  <table class="table table-striped">
-
-    <thead>
-      <tr>
-        <td style="width: 23%;"></td>
-        <td style="width: 57%;"></td>
-        <td style="width: 10%;"><span class="fui-check-inverted success" tooltip="Successes"></td>
-        <td style="width: 10%;"><span class="fui-cross-inverted danger" tooltip="Failures"></td>
-      </tr>
-    </thead>
-
-    <tbody>
-
-      <tr>
-        <td>1 Hour</td>
-        <td>          
-          <div tooltip="PASS: {{ testStats.stats[0] }}%&nbsp;&nbsp;  FAIL: {{ testStats.stats[1] }}%">
-            <progress class="progress-striped active" max="100" animated="true" style="height: 15px;">
-              <bar value="testStats.stats[0]" type="success"></bar>
-              <bar value="testStats.stats[1]" type="danger"></bar>
-            </progress>
-          </div>
-        <td>{{ testStats.stats[2] }}</td>
-        <td>{{ testStats.stats[3] }}</td>
-      </tr>
-
-      <tr>
-        <td>24 Hours</td>
-        <td>          
-          <div tooltip="PASS: {{ testStats.stats24[0] }}%&nbsp;&nbsp;  FAIL: {{ testStats.stats24[1] }}%">
-            <progress class="progress-striped active" max="100" animated="true" style="height: 15px;">
-              <bar value="testStats.stats24[0]" type="success"></bar>
-              <bar value="testStats.stats24[1]" type="danger"></bar>
-            </progress>
-          </div>
-        </td>
-        <td>{{ testStats.stats24[2] }}</td>
-        <td>{{ testStats.stats24[3] }}</td>
-      </tr>
-
-      <tr>
-        <td>7 Days</td>
-        <td>         
-          <div tooltip="PASS: {{ testStats.stats24x7[0] }}%&nbsp;&nbsp;  FAIL: {{ testStats.stats24x7[1] }}%">
-            <progress class="progress-striped active" max="100" animated="true" style="height: 15px;">
-              <bar value="testStats.stats24x7[0]" type="success"></bar>
-              <bar value="testStats.stats24x7[1]" type="danger"></bar>
-            </progress>
-          </div>
-        </td>
-        <td>{{ testStats.stats24x7[2] }}</td>
-        <td>{{ testStats.stats24x7[3] }}</td>
-      </tr>
-    </table>
-</div>
-</div>
+        </div>
 
 <div class="dashboard-panel-6 pull-right">
 

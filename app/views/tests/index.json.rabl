@@ -19,7 +19,3 @@ end
 child :mcp do
   attributes :id, :ip_address
 end
-
-child :results do
-  attributes :id, :status, :log, :snippet, :recording
-end

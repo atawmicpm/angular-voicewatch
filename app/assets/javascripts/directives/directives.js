@@ -4,11 +4,11 @@ vwApp.directive('wave', function ($compile) {
     restrict: 'E',
     template: '<i ng-class="{\'success-play pull-left\': result.status == 0, \'danger-play pull-left\': result.status == 1}" class="fa fa-caret-square-o-right fa-2x pointer play-button"></i>',
 
-    link:function($scope, $element, $attrs) {
+    link:function(scope, element, attrs) {
       
-      var recording   = $attrs.recording;
-      var resultId    = $attrs.resultId;
-      var primary     = $attrs.primary;
+      var recording   = attrs.recording;
+      var resultId    = attrs.resultId;
+      var primary     = attrs.primary;
       var wavesurfer  = Object.create(WaveSurfer);
 
       if (primary == 1) {
@@ -22,15 +22,15 @@ vwApp.directive('wave', function ($compile) {
           height: 80,
         });
 
-        $scope.waveFaded = false;
+        scope.waveFaded = false;
         wavesurfer.load(recording);
-        $scope.current_recording = recording;
+        scope.current_recording = recording;
       };
 
-      $element.bind('mouseenter', function() {
-        $element.addClass('play-hover');
-        if (recording !== $scope.current_recording) {
-          $scope.waveFaded = true;
+      element.bind('mouseenter', function() {
+        element.addClass('play-hover');
+        if (recording !== scope.current_recording) {
+          scope.waveFaded = true;
           angular.element('#wave').empty();
         
           wavesurfer.init({
@@ -41,29 +41,28 @@ vwApp.directive('wave', function ($compile) {
           });
 
 
-          $scope.current_recording = recording;
+          scope.current_recording = recording;
           wavesurfer.load(recording);
-          $scope.waveFaded = false;
+          scope.waveFaded = false;
         };
       });
 
-      $element.bind('mouseleave', function() {
-        $element.removeClass('play-hover');
+      element.bind('mouseleave', function() {
+        element.removeClass('play-hover');
       });
 
-      $element.bind('click', function() {
-        $scope.$emit('finished', recording);  
+      element.bind('click', function() {
+        scope.$emit('finished', recording);  
         wavesurfer.playPause();  
       });
 
       wavesurfer.on('play', function() {
-        $scope.$emit('playing', recording);
+        scope.$emit('playing', recording);
       });
       
       wavesurfer.on('finish', function(){
-        $scope.$emit('finished', recording);
+        scope.$emit('finished', recording);
       });     
-
 
     }
   };
